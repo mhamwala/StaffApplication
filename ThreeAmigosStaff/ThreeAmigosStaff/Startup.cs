@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MvcStaff.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ThreeAmigosStaff
 {
@@ -31,6 +33,8 @@ namespace ThreeAmigosStaff
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.AddDbContext<MvcStaffContext>(options =>
+                options.UseSqlite(Configuration.GetConnectionString("StaffContext")));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
