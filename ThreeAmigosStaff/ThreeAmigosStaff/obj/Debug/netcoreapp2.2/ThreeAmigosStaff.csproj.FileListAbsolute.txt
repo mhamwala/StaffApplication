@@ -40,3 +40,7 @@
 /Users/musahamwala/Documents/code/university/clouddevops/StaffApplication/ThreeAmigosStaff/ThreeAmigosStaff/obj/Debug/netcoreapp2.2/Razor/Views/Staff/Delete.cshtml.g.cs
 /Users/musahamwala/Documents/code/university/clouddevops/StaffApplication/ThreeAmigosStaff/ThreeAmigosStaff/obj/Debug/netcoreapp2.2/Razor/Views/Staff/Details.cshtml.g.cs
 /Users/musahamwala/Documents/code/university/clouddevops/StaffApplication/ThreeAmigosStaff/ThreeAmigosStaff/obj/Debug/netcoreapp2.2/Razor/Views/Staff/Edit.cshtml.g.cs
+/Users/musahamwala/Documents/code/university/clouddevops/StaffApplication/ThreeAmigosStaff/ThreeAmigosStaff/obj/Debug/netcoreapp2.2/Razor/Views/Customer/Create.cshtml.g.cs
+/Users/musahamwala/Documents/code/university/clouddevops/StaffApplication/ThreeAmigosStaff/ThreeAmigosStaff/obj/Debug/netcoreapp2.2/Razor/Views/Customer/Delete.cshtml.g.cs
+/Users/musahamwala/Documents/code/university/clouddevops/StaffApplication/ThreeAmigosStaff/ThreeAmigosStaff/obj/Debug/netcoreapp2.2/Razor/Views/Customer/Details.cshtml.g.cs
+/Users/musahamwala/Documents/code/university/clouddevops/StaffApplication/ThreeAmigosStaff/ThreeAmigosStaff/obj/Debug/netcoreapp2.2/Razor/Views/Customer/Edit.cshtml.g.cs
