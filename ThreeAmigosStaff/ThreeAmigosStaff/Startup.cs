@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MvcStaff.Models;
+using MvcCustomer.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace ThreeAmigosStaff
@@ -35,6 +36,9 @@ namespace ThreeAmigosStaff
 
             services.AddDbContext<MvcStaffContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("StaffContext")));
+
+            services.AddDbContext<MvcCustomerContext>(options =>
+                options.UseSqlite(Configuration.GetConnectionString("CustomerContext")));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
