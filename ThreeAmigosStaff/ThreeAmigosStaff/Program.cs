@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using MvcCustomer.Models;
 using MvcStaff.Models;
 
 namespace ThreeAmigosStaff
@@ -25,9 +26,13 @@ namespace ThreeAmigosStaff
 
                 try
                 {
-                    var context = services.GetRequiredService<MvcStaffContext>();
-                    context.Database.Migrate();
+                    var staffContext = services.GetRequiredService<MvcStaffContext>();
+                    staffContext.Database.Migrate();
                     StaffSeedData.Initialize(services);
+
+                    var customerContext = services.GetRequiredService<MvcCustomerContext>();
+                    customerContext.Database.Migrate();
+                    CustomerSeedData.Initialize(services);
                 }
                 catch (Exception ex)
                 {
