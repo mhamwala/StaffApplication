@@ -7,7 +7,7 @@ namespace ThreeAmigosStaff.Migrations.MvcCustomer
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Customers",
+                name: "Customer",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -21,14 +21,14 @@ namespace ThreeAmigosStaff.Migrations.MvcCustomer
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Customers", x => x.Id);
+                    table.PrimaryKey("PK_Customer", x => x.Id);
                 });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Customers");
+                name: "Customer");
         }
     }
 }

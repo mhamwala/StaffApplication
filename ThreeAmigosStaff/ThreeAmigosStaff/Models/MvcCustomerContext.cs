@@ -9,6 +9,6 @@ namespace MvcCustomer.Models
         {
         }
 
-        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Customer> Customer { get; set; }
     }
 }
