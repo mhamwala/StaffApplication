@@ -1,14 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace MvcStaff.Models
+namespace MvcProduct.Models
 {
-    public class MvcStaffContext : DbContext
+    public class MvcProductContext : DbContext
     {
-        public MvcStaffContext(DbContextOptions<MvcStaffContext> options)
+        public MvcProductContext(DbContextOptions<MvcProductContext> options)
             : base(options)
         {
         }
 
-        public DbSet<Staff> Staff { get; set; }
+        public DbSet<Product> Product { get; set; }
     }
 }
