@@ -1,24 +1,203 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using ThreeAmigosStaff.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using MvcPurchase.Models;
 
 namespace ThreeAmigosStaff.Controllers
 {
     public class PurchaseController : Controller
     {
-        public IActionResult Index()
+        private readonly MvcPurchaseContext _context;
+
+        public PurchaseController(MvcPurchaseContext context)
+        {
+            _context = context;
+        }
+
+        // GET: Purchase
+        public async Task<IActionResult> Index()
+        {
+            return View(await _context.Purchase.ToListAsync());
+        }
+
+        // GET: Purchase/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var purchase = await _context.Purchase
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (purchase == null)
+            {
+                return NotFound();
+            }
+
+            return View(purchase);
+        }
+
+        // GET: Purchase/Create
+        public IActionResult Create()
         {
             return View();
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        // POST: Purchase/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("Id,ProductName,UserId,UserName,Quantity,Price,Date,Accepted,CardNumber,SortCode,SecurityNumber")] Purchase purchase)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            if (ModelState.IsValid)
+            {
+                _context.Add(purchase);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(purchase);
+        }
+
+        // GET: Purchase/Edit/5
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var purchase = await _context.Purchase.FindAsync(id);
+            if (purchase == null)
+            {
+                return NotFound();
+            }
+            return View(purchase);
+        }
+
+        // GET: Purchase/Accept/5
+        public async Task<IActionResult> Accept(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var purchase = await _context.Purchase.FindAsync(id);
+            if (purchase == null)
+            {
+                return NotFound();
+            }
+            return View(purchase);
+        }
+
+        // POST: Purchase/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,ProductName,UserId,UserName,Quantity,Price,Date,Accepted")] Purchase purchase)
+        {
+            if (id != purchase.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(purchase);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!PurchaseExists(purchase.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(purchase);
+        }
+
+        // POST: Purchase/Accept/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Accept(int id, [Bind("Id,ProductName,UserId,UserName,Quantity,Price,Date,Accepted")] Purchase purchase)
+        {
+            if (id != purchase.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(purchase);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!PurchaseExists(purchase.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(purchase);
+        }
+
+        // GET: Purchase/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var purchase = await _context.Purchase
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (purchase == null)
+            {
+                return NotFound();
+            }
+
+            return View(purchase);
+        }
+
+        // POST: Purchase/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var purchase = await _context.Purchase.FindAsync(id);
+            _context.Purchase.Remove(purchase);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        private bool PurchaseExists(int id)
+        {
+            return _context.Purchase.Any(e => e.Id == id);
         }
     }
 }

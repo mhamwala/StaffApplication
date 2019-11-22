@@ -15,5 +15,8 @@ namespace MvcPurchase.Models
         [DataType(DataType.Date)]
         public int Date { get; set; }
         public Boolean Accepted { get; set; }
+        public int CardNumber { get; set; }
+        public int SortCode { get; set; }
+        public int SecurityNumber { get; set; }
     }
 }
