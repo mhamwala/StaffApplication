@@ -42,6 +42,42 @@ namespace ThreeAmigosStaff.Controllers
             return View(product);
         }
 
+        // GET: Product/PriceHistory/5
+        public async Task<IActionResult> PriceHistory(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var product = await _context.Product
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            return View(product);
+        }
+
+        // GET: Product/Reviews/5
+        public async Task<IActionResult> Reviews(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var product = await _context.Product
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            return View(await _context.Product.ToListAsync());
+        }
+
         // GET: Product/Create
         public IActionResult Create()
         {
