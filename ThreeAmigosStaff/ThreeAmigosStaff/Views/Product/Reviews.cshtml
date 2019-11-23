@@ -1,0 +1,30 @@
+@model IEnumerable<MvcProduct.Models.Product>
+
+@{
+    ViewData["Title"] = "Reviews";
+}
+
+<h1>Showing Reviews For</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                <a asp-action="Delete" asp-route-id="@item.Id"><input type=button value="Hide Review"></a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

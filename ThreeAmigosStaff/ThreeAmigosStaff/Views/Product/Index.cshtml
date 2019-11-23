@@ -6,9 +6,6 @@
 
 <h1>List of Products</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
@@ -37,13 +34,15 @@
                 @Html.DisplayFor(modelItem => item.Stock)
             </td>
             <td>
-                <a asp-action="Resell" asp-route-id="@item.Id"><input type=button value="Edit Resell Price"></a> |
-                <a asp-action="Edit" asp-route-id="@item.Id"><input type=button value="Reviews"></a> |
-                <a asp-action="Edit" asp-route-id="@item.Id"><input type=button value="Resell History"></a> |
+                <a asp-action="Reviews" asp-route-id="@item.Id"><input type=button value="Reviews"></a> |
+                <a asp-action="Resell" asp-route-id="@item.Id"><input type=button value="Change Price"></a> |
+                <a asp-action="PriceHistory" asp-route-id="@item.Id"><input type=button value="Price History"></a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
 }
     </tbody>
 </table>
+<p>
+    <a asp-action="Create">Add New Product</a>
+</p>
