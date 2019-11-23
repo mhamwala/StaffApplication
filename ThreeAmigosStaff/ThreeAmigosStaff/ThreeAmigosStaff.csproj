@@ -21,9 +21,15 @@
     <Folder Include="Views\Product\" />
     <Folder Include="Views\Customer\" />
     <Folder Include="Views\Order\" />
+    <Folder Include="Migrations\MvcStaff\" />
+    <Folder Include="Models\Staff\" />
+    <Folder Include="Models\Purchase\" />
+    <Folder Include="Models\Product\" />
+    <Folder Include="Models\Customer\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="Views\Home %28copy%29\Privacy.cshtml" />
     <Content Remove="Views\Home %28copy%29\Privacy.cshtml" />
+    <Content Remove="Views\Product\Delete.cshtml" />
   </ItemGroup>
 </Project>
