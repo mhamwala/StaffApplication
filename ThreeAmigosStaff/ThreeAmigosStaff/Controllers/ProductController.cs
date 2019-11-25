@@ -24,6 +24,12 @@ namespace ThreeAmigosStaff.Controllers
             return View(await _context.Product.ToListAsync());
         }
 
+        // GET: Stock
+        public async Task<IActionResult> Stock()
+        {
+            return View(await _context.Product.ToListAsync());
+        }
+
         // GET: Product/Details/5
         public async Task<IActionResult> Details(int? id)
         {
