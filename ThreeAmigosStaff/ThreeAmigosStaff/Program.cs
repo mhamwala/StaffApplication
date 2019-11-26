@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MvcCustomer.Models;
+using MvcOrder.Models;
 using MvcProduct.Models;
 using MvcPurchase.Models;
 using MvcStaff.Models;
@@ -43,6 +44,10 @@ namespace ThreeAmigosStaff
                     var productContext = services.GetRequiredService<MvcProductContext>();
                     productContext.Database.Migrate();
                     ProductSeedData.Initialize(services);
+
+                    var orderContext = services.GetRequiredService<MvcOrderContext>();
+                    orderContext.Database.Migrate();
+                    OrderSeedData.Initialize(services);
                 }
                 catch (Exception ex)
                 {
