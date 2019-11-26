@@ -14,6 +14,7 @@ using MvcCustomer.Models;
 using Microsoft.EntityFrameworkCore;
 using MvcPurchase.Models;
 using MvcProduct.Models;
+using MvcOrder.Models;
 
 namespace ThreeAmigosStaff
 {
@@ -47,6 +48,9 @@ namespace ThreeAmigosStaff
 
             services.AddDbContext<MvcProductContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("ProductContext")));
+
+            services.AddDbContext<MvcOrderContext>(options =>
+                options.UseSqlite(Configuration.GetConnectionString("OrderContext")));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
