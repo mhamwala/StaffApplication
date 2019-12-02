@@ -1,3 +1,3 @@
 echo Building the project..
 
-dotnet build
+dotnet build ./ThreeAmigosStaff/ThreeAmigosStaff/
