@@ -7,7 +7,7 @@ namespace ThreeAmigosStaff.Services
 {
     public class FakeStaffService : IStaffService
     {
-        private readonly StaffDto[] _staff =
+        public List<StaffDto> _staff = new List<StaffDto>
         {
             new StaffDto { Id = 1, Name = "Musa Smith", Address = "4 d road", Email = "Smith@hot.com", IsManagement = true, PostCode = "HU27fv", Password = "test", Telephone = "08323894283"},
             new StaffDto { Id = 2, Name = "Steve Smith", Address = "4 de road", Email = "Smith@ht.com", IsManagement = false, PostCode = "HU57fv", Password = "test", Telephone = "08323894283"},
@@ -30,6 +30,7 @@ namespace ThreeAmigosStaff.Services
 
         Task<StaffDto> IStaffService.PostStaffAsync(StaffDto staff)
         {
+            _staff.Add(staff);
             return Task.FromResult(staff);
         }
 

@@ -48,8 +48,8 @@ namespace ThreeAmigosStaff.Services
         //Post New Staff Member
         public async Task<StaffDto> PostStaffAsync(StaffDto staffs)
         {
-            var response = await _client.GetAsync("staff/create/");
-            if (response.StatusCode == HttpStatusCode.NotFound)
+            var response = await _client.PostAsJsonAsync("staff/", staffs);
+            if(response.StatusCode == HttpStatusCode.NotFound)
             {
                 return null;
             }

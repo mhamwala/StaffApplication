@@ -89,13 +89,12 @@ namespace ThreeAmigosStaff.Controllers
             {
                 await _staffService.PostStaffAsync(new StaffDto
                 {
-                    Id = staff.Id,
                     Name = staff.Name,
                     Email = staff.Email,
                     Address = staff.Address,
                     PostCode = staff.PostCode,
-                    IsManagement = staff.IsManagement,
-                    Telephone = staff.Telephone
+                    Telephone = staff.Telephone,
+                    IsManagement = staff.IsManagement
                 });
                 return RedirectToAction(nameof(Index));
             }

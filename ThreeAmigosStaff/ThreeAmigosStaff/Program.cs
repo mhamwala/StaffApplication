@@ -37,10 +37,6 @@ namespace ThreeAmigosStaff
                     purchaseContext.Database.Migrate();
                     PurchaseSeedData.Initialize(services);
 
-                    var productContext = services.GetRequiredService<MvcProductContext>();
-                    productContext.Database.Migrate();
-                    ProductSeedData.Initialize(services);
-
                     var orderContext = services.GetRequiredService<MvcOrderContext>();
                     orderContext.Database.Migrate();
                     OrderSeedData.Initialize(services);

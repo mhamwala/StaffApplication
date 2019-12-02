@@ -16,6 +16,7 @@ using MvcPurchase.Models;
 using MvcProduct.Models;
 using MvcOrder.Models;
 using ThreeAmigosStaff.Services;
+using ThreeAmigosProduct.Services;
 
 namespace ThreeAmigosStaff
 {
@@ -46,9 +47,6 @@ namespace ThreeAmigosStaff
             services.AddDbContext<MvcPurchaseContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("PurchaseContext")));
 
-            services.AddDbContext<MvcProductContext>(options =>
-                options.UseSqlite(Configuration.GetConnectionString("ProductContext")));
-
             services.AddDbContext<MvcOrderContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("OrderContext")));
 
@@ -57,10 +55,12 @@ namespace ThreeAmigosStaff
             if (_env.IsDevelopment())
             {
                 services.AddTransient<IStaffService, FakeStaffService>();
+                services.AddTransient<IProductService, FakeProductService>();
             }
             else
             {
                 services.AddHttpClient<IStaffService, StaffService>();
+                services.AddTransient<IProductService, ProductService>();
             }
 
         }
@@ -68,16 +68,16 @@ namespace ThreeAmigosStaff
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            //if (env.IsDevelopment())
-            //{
-            //    app.UseDeveloperExceptionPage();
-            //}
-            //else
-            //{
-            //    app.UseExceptionHandler("/Home/Error");
-            //    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-            //    app.UseHsts();
-            //}
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
+            }
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
