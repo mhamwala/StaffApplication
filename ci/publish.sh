@@ -1,0 +1,1 @@
+echo Publishing the application!!!
