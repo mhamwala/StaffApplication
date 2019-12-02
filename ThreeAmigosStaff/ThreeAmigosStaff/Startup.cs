@@ -15,17 +15,21 @@ using Microsoft.EntityFrameworkCore;
 using MvcPurchase.Models;
 using MvcProduct.Models;
 using MvcOrder.Models;
+using ThreeAmigosStaff.Services;
+using ThreeAmigosProduct.Services;
 
 namespace ThreeAmigosStaff
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IHostingEnvironment environment)
         {
             Configuration = configuration;
+            _env = environment;
         }
 
         public IConfiguration Configuration { get; }
+        public IHostingEnvironment _env { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -37,22 +41,28 @@ namespace ThreeAmigosStaff
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddDbContext<MvcStaffContext>(options =>
-                options.UseSqlite(Configuration.GetConnectionString("StaffContext")));
-
             services.AddDbContext<MvcCustomerContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("CustomerContext")));
 
             services.AddDbContext<MvcPurchaseContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("PurchaseContext")));
 
-            services.AddDbContext<MvcProductContext>(options =>
-                options.UseSqlite(Configuration.GetConnectionString("ProductContext")));
-
             services.AddDbContext<MvcOrderContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("OrderContext")));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            if (_env.IsDevelopment())
+            {
+                services.AddTransient<IStaffService, FakeStaffService>();
+                services.AddTransient<IProductService, FakeProductService>();
+            }
+            else
+            {
+                services.AddHttpClient<IStaffService, StaffService>();
+                services.AddTransient<IProductService, ProductService>();
+            }
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

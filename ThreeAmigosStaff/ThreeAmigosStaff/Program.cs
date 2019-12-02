@@ -29,10 +29,6 @@ namespace ThreeAmigosStaff
 
                 try
                 {
-                    var staffContext = services.GetRequiredService<MvcStaffContext>();
-                    staffContext.Database.Migrate();
-                    StaffSeedData.Initialize(services);
-
                     var customerContext = services.GetRequiredService<MvcCustomerContext>();
                     customerContext.Database.Migrate();
                     CustomerSeedData.Initialize(services);
@@ -40,10 +36,6 @@ namespace ThreeAmigosStaff
                     var purchaseContext = services.GetRequiredService<MvcPurchaseContext>();
                     purchaseContext.Database.Migrate();
                     PurchaseSeedData.Initialize(services);
-
-                    var productContext = services.GetRequiredService<MvcProductContext>();
-                    productContext.Database.Migrate();
-                    ProductSeedData.Initialize(services);
 
                     var orderContext = services.GetRequiredService<MvcOrderContext>();
                     orderContext.Database.Migrate();

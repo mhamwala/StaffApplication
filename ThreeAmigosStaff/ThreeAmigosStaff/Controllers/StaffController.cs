@@ -1,45 +1,72 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using MvcStaff.Models;
+using ThreeAmigosStaff.Services;
 
 namespace ThreeAmigosStaff.Controllers
 {
     public class StaffController : Controller
     {
-        private readonly MvcStaffContext _context;
+        //private readonly MvcStaffContext _context;
+        private readonly ILogger _logger;
+        private readonly IStaffService _staffService;
 
-        public StaffController(MvcStaffContext context)
+        public StaffController(ILogger<StaffController> logger,
+             IStaffService staffService)
         {
-            _context = context;
+            _logger = logger;
+            _staffService = staffService;
         }
 
         // GET: Staff
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Staff.ToListAsync());
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            IEnumerable<StaffDto> staffs = null;
+            try
+            {
+                staffs = await _staffService.GetStaffAsync();
+            }
+            catch(HttpRequestException)
+            {
+                _logger.LogWarning("Exception Occured using staff service.");
+                staffs = Array.Empty<StaffDto>();
+            }
+            
+            return View(staffs.ToList());
         }
 
         // GET: Staff/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int id)
         {
-            if (id == null)
+            if (!ModelState.IsValid)
             {
-                return NotFound();
+                return BadRequest(ModelState);
             }
 
-            var staff = await _context.Staff
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (staff == null)
+            StaffDto staffs = null;
+            try
             {
-                return NotFound();
+                staffs = await _staffService.GetStaffDetailsAsync(id);
+            }
+            catch (HttpRequestException)
+            {
+                _logger.LogWarning("Exception Occured using staff service.");
+                //staffs = Array.Empty<StaffDto>();
             }
 
-            return View(staff);
+            return View(staffs);
         }
 
         // GET: Staff/Create
@@ -49,30 +76,44 @@ namespace ThreeAmigosStaff.Controllers
         }
 
         // POST: Staff/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Email,Password,Address,PostCode,Telephone,IsManagement")] Staff staff)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                _context.Add(staff);
-                await _context.SaveChangesAsync();
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                await _staffService.PostStaffAsync(new StaffDto
+                {
+                    Name = staff.Name,
+                    Email = staff.Email,
+                    Address = staff.Address,
+                    PostCode = staff.PostCode,
+                    Telephone = staff.Telephone,
+                    IsManagement = staff.IsManagement
+                });
                 return RedirectToAction(nameof(Index));
+            }
+            catch(HttpRequestException)
+            {
+                _logger.LogWarning("Exception Occured using staff service.");
             }
             return View(staff);
         }
 
         // GET: Staff/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id == null)
+            if (!ModelState.IsValid)
             {
                 return NotFound();
             }
 
-            var staff = await _context.Staff.FindAsync(id);
+            var staff = await _staffService.EditStaffDetailsAsync(id);
             if (staff == null)
             {
                 return NotFound();
@@ -80,73 +121,69 @@ namespace ThreeAmigosStaff.Controllers
             return View(staff);
         }
 
-        // POST: Staff/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Email,Password,Address,PostCode,Telephone,IsManagement")] Staff staff)
-        {
-            if (id != staff.Id)
-            {
-                return NotFound();
-            }
+        //// POST: Staff/Edit/5
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Email,Password,Address,PostCode,Telephone,IsManagement")] Staff staff)
+        //{
+        //    if (id != staff.Id)
+        //    {
+        //        return NotFound();
+        //    }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(staff);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!StaffExists(staff.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(staff);
-        }
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            _context.Update(staff);
+        //            await _context.SaveChangesAsync();
+        //        }
+        //        catch (DbUpdateConcurrencyException)
+        //        {
+        //            if (!StaffExists(staff.Id))
+        //            {
+        //                return NotFound();
+        //            }
+        //            else
+        //            {
+        //                throw;
+        //            }
+        //        }
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    return View(staff);
+        //}
 
         // GET: Staff/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
-            if (id == null)
+            if (!ModelState.IsValid)
             {
                 return NotFound();
             }
 
-            var staff = await _context.Staff
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var staff = await _staffService.GetDeleteStaffAsync(id);
             if (staff == null)
             {
                 return NotFound();
             }
-
             return View(staff);
         }
 
-        // POST: Staff/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var staff = await _context.Staff.FindAsync(id);
-            _context.Staff.Remove(staff);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+        //// POST: Staff/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(int id)
+        //{
+        //    var staff = await _context.Staff.FindAsync(id);
+        //    _context.Staff.Remove(staff);
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction(nameof(Index));
+        //}
 
-        private bool StaffExists(int id)
-        {
-            return _context.Staff.Any(e => e.Id == id);
-        }
+        //private bool StaffExists(int id)
+        //{
+        //    return _context.Staff.Any(e => e.Id == id);
+        //}
     }
 }
