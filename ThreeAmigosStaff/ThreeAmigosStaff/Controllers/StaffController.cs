@@ -58,9 +58,7 @@ namespace ThreeAmigosStaff.Controllers
             StaffDto staffs = null;
             try
             {
-                //staffs = await _staffService.GetStaffDetailsAsync(id);
                 staffs = await _staffService.GetStaffDetailsAsync(id);
-        //        .FirstOrDefaultAsync(m => m.Id == id);
             }
             catch (HttpRequestException)
             {
@@ -71,65 +69,60 @@ namespace ThreeAmigosStaff.Controllers
             return View(staffs);
         }
 
-        //// GET: Staff/Details/5
-        //public async Task<IActionResult> Details(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+        // GET: Staff/Create
+        public IActionResult Create()
+        {
+            return View();
+        }
 
-        //    var staff = await _context.Staff
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (staff == null)
-        //    {
-        //        return NotFound();
-        //    }
+        // POST: Staff/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("Id,Name,Email,Password,Address,PostCode,Telephone,IsManagement")] Staff staff)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-        //    return View(staff);
-        //}
+            try
+            {
+                await _staffService.PostStaffAsync(new StaffDto
+                {
+                    Id = staff.Id,
+                    Name = staff.Name,
+                    Email = staff.Email,
+                    Address = staff.Address,
+                    PostCode = staff.PostCode,
+                    IsManagement = staff.IsManagement,
+                    Telephone = staff.Telephone
+                });
+                return RedirectToAction(nameof(Index));
+            }
+            catch(HttpRequestException)
+            {
+                _logger.LogWarning("Exception Occured using staff service.");
+            }
+            return View(staff);
+        }
 
-        //// GET: Staff/Create
-        //public IActionResult Create()
-        //{
-        //    return View();
-        //}
+        // GET: Staff/Edit/5
+        public async Task<IActionResult> Edit(int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return NotFound();
+            }
 
-        //// POST: Staff/Create
-        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("Id,Name,Email,Password,Address,PostCode,Telephone,IsManagement")] Staff staff)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _context.Add(staff);
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(staff);
-        //}
-
-        //// GET: Staff/Edit/5
-        //public async Task<IActionResult> Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var staff = await _context.Staff.FindAsync(id);
-        //    if (staff == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return View(staff);
-        //}
+            var staff = await _staffService.EditStaffDetailsAsync(id);
+            if (staff == null)
+            {
+                return NotFound();
+            }
+            return View(staff);
+        }
 
         //// POST: Staff/Edit/5
-        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         //[HttpPost]
         //[ValidateAntiForgeryToken]
         //public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Email,Password,Address,PostCode,Telephone,IsManagement")] Staff staff)
@@ -162,23 +155,21 @@ namespace ThreeAmigosStaff.Controllers
         //    return View(staff);
         //}
 
-        //// GET: Staff/Delete/5
-        //public async Task<IActionResult> Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+        // GET: Staff/Delete/5
+        public async Task<IActionResult> Delete(int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return NotFound();
+            }
 
-        //    var staff = await _context.Staff
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (staff == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(staff);
-        //}
+            var staff = await _staffService.GetDeleteStaffAsync(id);
+            if (staff == null)
+            {
+                return NotFound();
+            }
+            return View(staff);
+        }
 
         //// POST: Staff/Delete/5
         //[HttpPost, ActionName("Delete")]

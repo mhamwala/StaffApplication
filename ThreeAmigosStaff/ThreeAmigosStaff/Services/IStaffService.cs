@@ -9,5 +9,11 @@ namespace ThreeAmigosStaff.Services
         Task<IEnumerable<StaffDto>> GetStaffAsync();
 
         Task<StaffDto> GetStaffDetailsAsync(int Id);
+
+        Task<StaffDto> PostStaffAsync(StaffDto staffDto);
+
+        Task<StaffDto> EditStaffDetailsAsync(int Id);
+
+        Task<StaffDto> GetDeleteStaffAsync(int Id);
     }
 }
