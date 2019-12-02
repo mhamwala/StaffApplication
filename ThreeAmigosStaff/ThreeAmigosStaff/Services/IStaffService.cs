@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ThreeAmigosStaff.Services
 {
     public interface IStaffService
     {
-        Task<StaffDto> GetStaffAsync();
+        Task<IEnumerable<StaffDto>> GetStaffAsync();
+
+        Task<StaffDto> GetStaffDetailsAsync(int Id);
     }
 }

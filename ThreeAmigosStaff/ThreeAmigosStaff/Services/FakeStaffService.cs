@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,9 +17,14 @@ namespace ThreeAmigosStaff.Services
             new StaffDto { Id = 6, Name = "Barry Hamwala", Address = "4 de road", Email = "Musa@ht.com", IsManagement = false, PostCode = "HU57fv", Password = "test", Telephone = "08323894283"}
         };
 
-        public Task<StaffDto> GetStaffAsync()
+        public Task<IEnumerable<StaffDto>> GetStaffAsync()
         {
-            var staff = _staff.FirstOrDefault();
+            return Task.FromResult(_staff.AsEnumerable());
+        }
+
+        Task<StaffDto> IStaffService.GetStaffDetailsAsync(int Id)
+        {
+            var staff = _staff.FirstOrDefault(r => r.Id == Id);
             return Task.FromResult(staff);
         }
     }

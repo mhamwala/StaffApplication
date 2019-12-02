@@ -28,29 +28,48 @@ namespace ThreeAmigosStaff.Controllers
         // GET: Staff
         public async Task<IActionResult> Index()
         {
-            if(ModelState.IsValid)
+            if(!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            IEnumerable<StaffDto> staff = null;
+            IEnumerable<StaffDto> staffs = null;
             try
             {
-                staff = (IEnumerable<StaffDto>)await _staffService.GetStaffAsync();
+                staffs = await _staffService.GetStaffAsync();
             }
             catch(HttpRequestException)
             {
                 _logger.LogWarning("Exception Occured using staff service.");
-                staff = Array.Empty<StaffDto>();
+                staffs = Array.Empty<StaffDto>();
             }
-            return View(staff.ToList());
+            
+            return View(staffs.ToList());
         }
 
-        //// GET: Staff
-        //public async Task<IActionResult> Index()
-        //{
-        //    return View(await _context.Staff.ToListAsync());
-        //}
+        // GET: Staff/Details/5
+        public async Task<IActionResult> Details(int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            StaffDto staffs = null;
+            try
+            {
+                //staffs = await _staffService.GetStaffDetailsAsync(id);
+                staffs = await _staffService.GetStaffDetailsAsync(id);
+        //        .FirstOrDefaultAsync(m => m.Id == id);
+            }
+            catch (HttpRequestException)
+            {
+                _logger.LogWarning("Exception Occured using staff service.");
+                //staffs = Array.Empty<StaffDto>();
+            }
+
+            return View(staffs);
+        }
 
         //// GET: Staff/Details/5
         //public async Task<IActionResult> Details(int? id)

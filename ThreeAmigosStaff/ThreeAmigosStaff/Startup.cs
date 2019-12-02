@@ -24,11 +24,11 @@ namespace ThreeAmigosStaff
         public Startup(IConfiguration configuration, IHostingEnvironment environment)
         {
             Configuration = configuration;
-            Environment = environment;
+            _env = environment;
         }
 
         public IConfiguration Configuration { get; }
-        public IHostingEnvironment Environment { get; }
+        public IHostingEnvironment _env { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -39,9 +39,6 @@ namespace ThreeAmigosStaff
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-
-            services.AddDbContext<MvcStaffContext>(options =>
-                options.UseSqlite(Configuration.GetConnectionString("StaffContext")));
 
             services.AddDbContext<MvcCustomerContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("CustomerContext")));
@@ -57,13 +54,13 @@ namespace ThreeAmigosStaff
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            if (Environment.IsDevelopment())
+            if (_env.IsDevelopment())
             {
                 services.AddTransient<IStaffService, FakeStaffService>();
             }
             else
             {
-                services.AddHttpClient<IStaffService, FakeStaffService>();
+                services.AddHttpClient<IStaffService, StaffService>();
             }
 
         }

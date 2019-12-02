@@ -29,10 +29,6 @@ namespace ThreeAmigosStaff
 
                 try
                 {
-                    var staffContext = services.GetRequiredService<MvcStaffContext>();
-                    staffContext.Database.Migrate();
-                    StaffSeedData.Initialize(services);
-
                     var customerContext = services.GetRequiredService<MvcCustomerContext>();
                     customerContext.Database.Migrate();
                     CustomerSeedData.Initialize(services);
