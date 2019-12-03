@@ -65,7 +65,6 @@ namespace ThreeAmigosStaff.Controllers
                 _logger.LogWarning("Exception Occured using staff service.");
                 //staffs = Array.Empty<StaffDto>();
             }
-
             return View(staffs);
         }
 

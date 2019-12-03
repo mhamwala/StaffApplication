@@ -14,7 +14,6 @@ namespace ThreeAmigosCustomer.Controllers
 {
     public class CustomerController : Controller
     {
-        //private readonly MvcCustomerContext _context;
         private readonly ILogger _logger;
         private readonly ICustomerService _customerService;
 
@@ -47,29 +46,27 @@ namespace ThreeAmigosCustomer.Controllers
             return View(customers.ToList());
         }
 
-        //// GET: Customer
-        //public async Task<IActionResult> Index()
-        //{
-        //    return View(await _context.Customer.ToListAsync());
-        //}
+        // GET: Customer/Details/5
+        public async Task<IActionResult> Details(int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-        //// GET: Customer/Details/5
-        //public async Task<IActionResult> Details(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+            CustomerDto customers = null;
+            try
+            {
+                customers = await _customerService.GetCustomerDetailsAsync(id);
+            }
+            catch (HttpRequestException)
+            {
+                _logger.LogWarning("Exception Occured using staff service.");
+                //customers = Array.Empty<StaffDto>();
+            }
 
-        //    var customer = await _context.Customer
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (customer == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(customer);
-        //}
+            return View(customers);
+        }
 
         //// GET: Customer/Create
         //public IActionResult Create()
@@ -93,21 +90,21 @@ namespace ThreeAmigosCustomer.Controllers
         //    return View(customer);
         //}
 
-        //// GET: Customer/Edit/5
-        //public async Task<IActionResult> Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+        // GET: Customer/Edit/5
+        public async Task<IActionResult> Edit(int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return NotFound();
+            }
 
-        //    var customer = await _context.Customer.FindAsync(id);
-        //    if (customer == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return View(customer);
-        //}
+            var customer = await _customerService.EditCustomerDetailsAsync(id);
+            if (customer == null)
+            {
+                return NotFound();
+            }
+            return View(customer);
+        }
 
         //// POST: Customer/Edit/5
         //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -144,23 +141,21 @@ namespace ThreeAmigosCustomer.Controllers
         //    return View(customer);
         //}
 
-        //// GET: Customer/Delete/5
-        //public async Task<IActionResult> Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+        // GET: Customer/Delete/5
+        public async Task<IActionResult> Delete(int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return NotFound();
+            }
 
-        //    var customer = await _context.Customer
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (customer == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(customer);
-        //}
+            var customer = await _customerService.GetDeleteCustomerAsync(id);
+            if (customer == null)
+            {
+                return NotFound();
+            }
+            return View(customer);
+        }
 
         //// POST: Customer/Delete/5
         //[HttpPost, ActionName("Delete")]

@@ -51,8 +51,8 @@ namespace ThreeAmigosStaff
             else
             {
                 services.AddHttpClient<IStaffService, StaffService>();
-                services.AddTransient<IProductService, ProductService>();
-                services.AddTransient<ICustomerService, CustomerService>();
+                services.AddHttpClient<IProductService, ProductService>();
+                services.AddHttpClient<ICustomerService, CustomerService>();
             }
 
         }
