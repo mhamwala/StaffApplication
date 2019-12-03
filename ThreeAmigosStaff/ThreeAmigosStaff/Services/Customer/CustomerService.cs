@@ -4,13 +4,13 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace ThreeAmigosProduct.Services
+namespace ThreeAmigosCustomer.Services
 {
-    public class ProductService : IProductService
+    public class CustomerService : ICustomerService
     {
         private readonly HttpClient _client;
 
-        public ProductService(HttpClient client)
+        public CustomerService(HttpClient client)
         {
             client.BaseAddress = new System.Uri("http://localhost:5001/");
             client.Timeout = TimeSpan.FromSeconds(5);
@@ -18,84 +18,84 @@ namespace ThreeAmigosProduct.Services
             _client = client;
         }
 
-        //Get all Product
-        public async Task<IEnumerable<ProductDto>> GetProductAsync()
+        //Get all Customer
+        public async Task<IEnumerable<CustomerDto>> GetCustomerAsync()
         {
-            var response = await _client.GetAsync("Product/");
+            var response = await _client.GetAsync("Customer/");
             if(response.StatusCode == HttpStatusCode.NotFound)
             {
                 return null;
             }
             response.EnsureSuccessStatusCode();
-            var product = await response.Content.ReadAsAsync<IEnumerable<ProductDto>>();
-            return product;
+            var customer = await response.Content.ReadAsAsync<IEnumerable<CustomerDto>>();
+            return customer;
 
         }
 
-        //Get all Products
-        public async Task<IEnumerable<ProductDto>> GetProductsAsync(int Id)
+        //Get all Customers
+        public async Task<IEnumerable<CustomerDto>> GetCustomersAsync(int Id)
         {
-            var response = await _client.GetAsync("Product/" + Id);
+            var response = await _client.GetAsync("Customer/" + Id);
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 return null;
             }
             response.EnsureSuccessStatusCode();
-            var product = await response.Content.ReadAsAsync<IEnumerable<ProductDto>>();
-            return product;
+            var customer = await response.Content.ReadAsAsync<IEnumerable<CustomerDto>>();
+            return customer;
 
         }
 
-        //Get Individual Product Details
-        public async Task<ProductDto> GetProductDetailsAsync(int Id)
+        //Get Individual Customer Details
+        public async Task<CustomerDto> GetCustomerDetailsAsync(int Id)
         {
-            var response = await _client.GetAsync("Product/details/" + Id);
+            var response = await _client.GetAsync("Customer/details/" + Id);
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 return null;
             }
             response.EnsureSuccessStatusCode();
-            var product = await response.Content.ReadAsAsync<ProductDto>();
-            return product;
+            var customer = await response.Content.ReadAsAsync<CustomerDto>();
+            return customer;
         }
 
-        //Post New Product Member
-        public async Task<ProductDto> PostProductAsync(ProductDto products)
+        //Post New Customer Member
+        public async Task<CustomerDto> PostCustomerAsync(CustomerDto customers)
         {
-            var response = await _client.PostAsJsonAsync("Product/", products);
+            var response = await _client.PostAsJsonAsync("Customer/", customers);
             if(response.StatusCode == HttpStatusCode.NotFound)
             {
                 return null;
             }
             response.EnsureSuccessStatusCode();
-            var product = await response.Content.ReadAsAsync<ProductDto>();
-            return product;
+            var customer = await response.Content.ReadAsAsync<CustomerDto>();
+            return customer;
         }
 
-        //Edit Individual Product Details
-        public async Task<ProductDto> EditProductDetailsAsync(int Id)
+        //Edit Individual Customer Details
+        public async Task<CustomerDto> EditCustomerDetailsAsync(int Id)
         {
-            var response = await _client.GetAsync("Product/edit/" + Id);
+            var response = await _client.GetAsync("Customer/edit/" + Id);
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 return null;
             }
             response.EnsureSuccessStatusCode();
-            var product = await response.Content.ReadAsAsync<ProductDto>();
-            return product;
+            var customer = await response.Content.ReadAsAsync<CustomerDto>();
+            return customer;
         }
 
         //Get Edit Delete
-        public async Task<ProductDto> GetDeleteProductAsync(int Id)
+        public async Task<CustomerDto> GetDeleteCustomerAsync(int Id)
         {
-            var response = await _client.GetAsync("Product/delete/" + Id);
+            var response = await _client.GetAsync("Customer/delete/" + Id);
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 return null;
             }
             response.EnsureSuccessStatusCode();
-            var product = await response.Content.ReadAsAsync<ProductDto>();
-            return product;
+            var customer = await response.Content.ReadAsAsync<CustomerDto>();
+            return customer;
         }
     }
 }

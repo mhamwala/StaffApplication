@@ -1,19 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using MvcCustomer.Models;
 using MvcOrder.Models;
-using MvcProduct.Models;
 using MvcPurchase.Models;
-using MvcStaff.Models;
 
 namespace ThreeAmigosStaff
 {
@@ -29,10 +21,6 @@ namespace ThreeAmigosStaff
 
                 try
                 {
-                    var customerContext = services.GetRequiredService<MvcCustomerContext>();
-                    customerContext.Database.Migrate();
-                    CustomerSeedData.Initialize(services);
-
                     var purchaseContext = services.GetRequiredService<MvcPurchaseContext>();
                     purchaseContext.Database.Migrate();
                     PurchaseSeedData.Initialize(services);

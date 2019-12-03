@@ -1,22 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using MvcStaff.Models;
-using MvcCustomer.Models;
 using Microsoft.EntityFrameworkCore;
 using MvcPurchase.Models;
-using MvcProduct.Models;
 using MvcOrder.Models;
 using ThreeAmigosStaff.Services;
 using ThreeAmigosProduct.Services;
+using ThreeAmigosCustomer.Services;
 
 namespace ThreeAmigosStaff
 {
@@ -41,9 +34,6 @@ namespace ThreeAmigosStaff
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddDbContext<MvcCustomerContext>(options =>
-                options.UseSqlite(Configuration.GetConnectionString("CustomerContext")));
-
             services.AddDbContext<MvcPurchaseContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("PurchaseContext")));
 
@@ -56,11 +46,13 @@ namespace ThreeAmigosStaff
             {
                 services.AddTransient<IStaffService, FakeStaffService>();
                 services.AddTransient<IProductService, FakeProductService>();
+                services.AddTransient<ICustomerService, FakeCustomerService>();
             }
             else
             {
                 services.AddHttpClient<IStaffService, StaffService>();
                 services.AddTransient<IProductService, ProductService>();
+                services.AddTransient<ICustomerService, CustomerService>();
             }
 
         }

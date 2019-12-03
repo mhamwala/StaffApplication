@@ -3,50 +3,50 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ThreeAmigosProduct.Services
+namespace ThreeAmigosCustomer.Services
 {
-    public class FakeProductService : IProductService
+    public class FakeCustomerService : ICustomerService
     {
-        public List<ProductDto> _product = new List<ProductDto>
+        public List<CustomerDto> _customer = new List<CustomerDto>
         {
-            new ProductDto { Id = 21, Name = "Ballons", Price = 1, Stock = 3 },
-            new ProductDto { Id = 22, Name = "Kite", Price = 10.30, Stock = 4 },
-            new ProductDto { Id = 23, Name = "Phone", Price = 19.23, Stock = 3 },
-            new ProductDto { Id = 24, Name = "Wallet", Price = 1.99, Stock = 30 }
+            new CustomerDto { Name = "Musa Haamwala", Email = "example@1.com", Password = "RomanticComedy", Address = "2 Tell close", PostCode = "JG3 5BD", Telephone = "09722342344" },
+            new CustomerDto { Name = "Usas Haamwala", Email = "example@3.com", Password = "RomanticComedy", Address = "5 Tell close", PostCode = "JG3 5BD", Telephone = "09722342344" },
+            new CustomerDto { Name = "Pkmd Haamwala", Email = "example@2.com", Password = "RomanticComedy", Address = "6 Tell close", PostCode = "JG3 5BD", Telephone = "09723342344" },
+            new CustomerDto { Name = "Lsoij Haamwala", Email = "example@5.com", Password = "RomanticComedy", Address = "5 Tell close", PostCode = "JG3 5BD", Telephone = "09724342344" }
         };
 
-        public Task<IEnumerable<ProductDto>> GetProductAsync()
+        public Task<IEnumerable<CustomerDto>> GetCustomerAsync()
         {
-            return Task.FromResult(_product.AsEnumerable());
+            return Task.FromResult(_customer.AsEnumerable());
         }
 
-        Task<ProductDto> IProductService.GetProductDetailsAsync(int Id)
+        Task<CustomerDto> ICustomerService.GetCustomerDetailsAsync(int Id)
         {
-            var product = _product.FirstOrDefault(r => r.Id == Id);
-            return Task.FromResult(product);
+            var customer = _customer.FirstOrDefault(r => r.Id == Id);
+            return Task.FromResult(customer);
         }
 
-        Task<ProductDto> IProductService.PostProductAsync(ProductDto product)
+        Task<CustomerDto> ICustomerService.PostCustomerAsync(CustomerDto customer)
         {
-            _product.Add(product);
-            return Task.FromResult(product);
+            _customer.Add(customer);
+            return Task.FromResult(customer);
         }
 
-        Task<ProductDto> IProductService.EditProductDetailsAsync(int Id)
+        Task<CustomerDto> ICustomerService.EditCustomerDetailsAsync(int Id)
         {
-            var product = _product.FirstOrDefault(r => r.Id == Id);
-            return Task.FromResult(product);
+            var customer = _customer.FirstOrDefault(r => r.Id == Id);
+            return Task.FromResult(customer);
         }
 
-        public Task<ProductDto> GetDeleteProductAsync(int Id)
+        public Task<CustomerDto> GetDeleteCustomerAsync(int Id)
         {
-            var product = _product.FirstOrDefault(r => r.Id == Id);
-            return Task.FromResult(product);
+            var customer = _customer.FirstOrDefault(r => r.Id == Id);
+            return Task.FromResult(customer);
         }
 
-        public Task<IEnumerable<ProductDto>> GetProductsAsync(int Id)
+        public Task<IEnumerable<CustomerDto>> GetCustomersAsync(int Id)
         {
-            return Task.FromResult(_product.AsEnumerable());
+            return Task.FromResult(_customer.AsEnumerable());
         }
     }
 }

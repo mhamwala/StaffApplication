@@ -26,6 +26,8 @@
     <Folder Include="Models\Purchase\" />
     <Folder Include="Models\Product\" />
     <Folder Include="Models\Customer\" />
+    <Folder Include="Services\" />
+    <Folder Include="Services\Customer\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="Views\Home %28copy%29\Privacy.cshtml" />

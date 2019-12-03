@@ -2,20 +2,20 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace ThreeAmigosProduct.Services
+namespace ThreeAmigosCustomer.Services
 {
-    public interface IProductService
+    public interface ICustomerService
     {
-        Task<IEnumerable<ProductDto>> GetProductAsync();
+        Task<IEnumerable<CustomerDto>> GetCustomerAsync();
 
-        Task<IEnumerable<ProductDto>> GetProductsAsync(int Id);
+        Task<IEnumerable<CustomerDto>> GetCustomersAsync(int Id);
 
-        Task<ProductDto> GetProductDetailsAsync(int Id);
+        Task<CustomerDto> GetCustomerDetailsAsync(int Id);
 
-        Task<ProductDto> PostProductAsync(ProductDto ProductDto);
+        Task<CustomerDto> PostCustomerAsync(CustomerDto CustomerDto);
 
-        Task<ProductDto> EditProductDetailsAsync(int Id);
+        Task<CustomerDto> EditCustomerDetailsAsync(int Id);
 
-        Task<ProductDto> GetDeleteProductAsync(int Id);
+        Task<CustomerDto> GetDeleteCustomerAsync(int Id);
     }
 }
