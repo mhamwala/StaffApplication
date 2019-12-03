@@ -29,6 +29,7 @@
     <Folder Include="Services\" />
     <Folder Include="Services\Customer\" />
     <Folder Include="Services\Order\" />
+    <Folder Include="Services\Purchase\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="Views\Home %28copy%29\Privacy.cshtml" />

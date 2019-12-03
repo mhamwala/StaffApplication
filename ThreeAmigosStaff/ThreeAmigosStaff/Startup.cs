@@ -10,6 +10,7 @@ using MvcOrder.Models;
 using ThreeAmigosStaff.Services;
 using ThreeAmigosProduct.Services;
 using ThreeAmigosCustomer.Services;
+using ThreeAmigosPurchase.Services;
 
 namespace ThreeAmigosStaff
 {
@@ -34,9 +35,6 @@ namespace ThreeAmigosStaff
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddDbContext<MvcPurchaseContext>(options =>
-                options.UseSqlite(Configuration.GetConnectionString("PurchaseContext")));
-
             services.AddDbContext<MvcOrderContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("OrderContext")));
 
@@ -47,12 +45,14 @@ namespace ThreeAmigosStaff
                 services.AddTransient<IStaffService, FakeStaffService>();
                 services.AddTransient<IProductService, FakeProductService>();
                 services.AddTransient<ICustomerService, FakeCustomerService>();
+                services.AddTransient<IPurchaseService, FakePurchaseService>();
             }
             else
             {
                 services.AddHttpClient<IStaffService, StaffService>();
                 services.AddHttpClient<IProductService, ProductService>();
                 services.AddHttpClient<ICustomerService, CustomerService>();
+                services.AddHttpClient<IPurchaseService, PurchaseService>();
             }
 
         }
