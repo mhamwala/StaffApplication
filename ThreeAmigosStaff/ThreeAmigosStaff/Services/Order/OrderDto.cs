@@ -1,8 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-namespace MvcOrder.Models
+
+namespace ThreeAmigosOrder.Services
 {
-    public class Order
+    public class OrderDto
     {
         public int Id { get; set; }
         public int CustomerID { get; set; }
@@ -10,7 +11,7 @@ namespace MvcOrder.Models
         public double Total { get; set; }
         public int Quantity { get; set; }
         public string ShippingAddress { get; set; }
-        [DataType(DataType.Date)]
+        [DataType(DataType.DateTime)]
         public DateTime OrderDate { get; set; }
         [DataType(DataType.Date)]
         public DateTime ShippingDate { get; set; }

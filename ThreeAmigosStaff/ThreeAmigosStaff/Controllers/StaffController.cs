@@ -4,10 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using MvcStaff.Models;
 using ThreeAmigosStaff.Services;
 
 namespace ThreeAmigosStaff.Controllers
@@ -74,35 +71,35 @@ namespace ThreeAmigosStaff.Controllers
             return View();
         }
 
-        // POST: Staff/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Email,Password,Address,PostCode,Telephone,IsManagement")] Staff staff)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        //// POST: Staff/Create
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Create([Bind("Id,Name,Email,Password,Address,PostCode,Telephone,IsManagement")] Staff staff)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
 
-            try
-            {
-                await _staffService.PostStaffAsync(new StaffDto
-                {
-                    Name = staff.Name,
-                    Email = staff.Email,
-                    Address = staff.Address,
-                    PostCode = staff.PostCode,
-                    Telephone = staff.Telephone,
-                    IsManagement = staff.IsManagement
-                });
-                return RedirectToAction(nameof(Index));
-            }
-            catch(HttpRequestException)
-            {
-                _logger.LogWarning("Exception Occured using staff service.");
-            }
-            return View(staff);
-        }
+        //    try
+        //    {
+        //        await _staffService.PostStaffAsync(new StaffDto
+        //        {
+        //            Name = staff.Name,
+        //            Email = staff.Email,
+        //            Address = staff.Address,
+        //            PostCode = staff.PostCode,
+        //            Telephone = staff.Telephone,
+        //            IsManagement = staff.IsManagement
+        //        });
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    catch(HttpRequestException)
+        //    {
+        //        _logger.LogWarning("Exception Occured using staff service.");
+        //    }
+        //    return View(staff);
+        //}
 
         // GET: Staff/Edit/5
         public async Task<IActionResult> Edit(int id)

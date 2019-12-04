@@ -4,17 +4,13 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using MvcProduct.Models;
 using ThreeAmigosProduct.Services;
 
 namespace ThreeAmigosProduct.Controllers
 {
     public class ProductController : Controller
     {
-        //private readonly MvcProductContext _context;
         private readonly ILogger _logger;
         private readonly IProductService _productService;
 

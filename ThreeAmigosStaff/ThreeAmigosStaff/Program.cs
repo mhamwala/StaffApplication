@@ -1,11 +1,8 @@
 ﻿using System;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using MvcOrder.Models;
-using MvcPurchase.Models;
 
 namespace ThreeAmigosStaff
 {
@@ -21,9 +18,6 @@ namespace ThreeAmigosStaff
 
                 try
                 {
-                    var orderContext = services.GetRequiredService<MvcOrderContext>();
-                    orderContext.Database.Migrate();
-                    OrderSeedData.Initialize(services);
                 }
                 catch (Exception ex)
                 {

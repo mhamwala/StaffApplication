@@ -4,13 +4,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.EntityFrameworkCore;
-using MvcPurchase.Models;
-using MvcOrder.Models;
 using ThreeAmigosStaff.Services;
 using ThreeAmigosProduct.Services;
 using ThreeAmigosCustomer.Services;
 using ThreeAmigosPurchase.Services;
+using ThreeAmigosOrder.Services;
 
 namespace ThreeAmigosStaff
 {
@@ -35,9 +33,6 @@ namespace ThreeAmigosStaff
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddDbContext<MvcOrderContext>(options =>
-                options.UseSqlite(Configuration.GetConnectionString("OrderContext")));
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             if (_env.IsDevelopment())
@@ -46,6 +41,7 @@ namespace ThreeAmigosStaff
                 services.AddTransient<IProductService, FakeProductService>();
                 services.AddTransient<ICustomerService, FakeCustomerService>();
                 services.AddTransient<IPurchaseService, FakePurchaseService>();
+                services.AddTransient<IOrderService, FakeOrderService>();
             }
             else
             {
@@ -53,6 +49,7 @@ namespace ThreeAmigosStaff
                 services.AddHttpClient<IProductService, ProductService>();
                 services.AddHttpClient<ICustomerService, CustomerService>();
                 services.AddHttpClient<IPurchaseService, PurchaseService>();
+                services.AddHttpClient<IOrderService, OrderService>();
             }
 
         }

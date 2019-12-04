@@ -22,10 +22,6 @@
     <Folder Include="Views\Customer\" />
     <Folder Include="Views\Order\" />
     <Folder Include="Migrations\MvcStaff\" />
-    <Folder Include="Models\Staff\" />
-    <Folder Include="Models\Purchase\" />
-    <Folder Include="Models\Product\" />
-    <Folder Include="Models\Customer\" />
     <Folder Include="Services\" />
     <Folder Include="Services\Customer\" />
     <Folder Include="Services\Order\" />
