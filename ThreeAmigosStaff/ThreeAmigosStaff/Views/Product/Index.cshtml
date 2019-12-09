@@ -34,7 +34,7 @@
                 @Html.DisplayFor(modelItem => item.Stock)
             </td>
             <td>
-                <a asp-action="Reviews" asp-route-id="@item.Id"><input type=button value="Reviews"></a> |
+                <a asp-action="Review" asp-route-id="@item.Id"><input type=button value="Reviews"></a> |
                 <a asp-action="Resell" asp-route-id="@item.Id"><input type=button value="Change Price"></a> |
                 <a asp-action="PriceHistory" asp-route-id="@item.Id"><input type=button value="Price History"></a>
             </td>
