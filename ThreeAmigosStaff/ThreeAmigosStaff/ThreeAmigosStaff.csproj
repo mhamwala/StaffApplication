@@ -25,10 +25,13 @@
     <Folder Include="Services\Customer\" />
     <Folder Include="Services\Order\" />
     <Folder Include="Services\Purchase\" />
+    <Folder Include="Services\Review\" />
+    <Folder Include="Views\Review\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="Views\Home %28copy%29\Privacy.cshtml" />
     <Content Remove="Views\Home %28copy%29\Privacy.cshtml" />
     <Content Remove="Views\Product\Delete.cshtml" />
+    <Content Remove="Views\Order %28copy%29\Delete.cshtml" />
   </ItemGroup>
 </Project>

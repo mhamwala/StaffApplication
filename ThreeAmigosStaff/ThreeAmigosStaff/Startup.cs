@@ -9,6 +9,7 @@ using ThreeAmigosProduct.Services;
 using ThreeAmigosCustomer.Services;
 using ThreeAmigosPurchase.Services;
 using ThreeAmigosOrder.Services;
+using ThreeAmigosReview.Services;
 
 namespace ThreeAmigosStaff
 {
@@ -42,6 +43,7 @@ namespace ThreeAmigosStaff
                 services.AddTransient<ICustomerService, FakeCustomerService>();
                 services.AddTransient<IPurchaseService, FakePurchaseService>();
                 services.AddTransient<IOrderService, FakeOrderService>();
+                services.AddTransient<IReviewService, FakeReviewService>();
             }
             else
             {
@@ -50,6 +52,7 @@ namespace ThreeAmigosStaff
                 services.AddHttpClient<ICustomerService, CustomerService>();
                 services.AddHttpClient<IPurchaseService, PurchaseService>();
                 services.AddHttpClient<IOrderService, OrderService>();
+                services.AddHttpClient<IReviewService, ReviewService>();
             }
 
         }

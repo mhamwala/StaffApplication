@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using ThreeAmigosProduct.Services;
+using ThreeAmigosReview.Services;
 
 namespace ThreeAmigosProduct.Controllers
 {
@@ -13,12 +14,14 @@ namespace ThreeAmigosProduct.Controllers
     {
         private readonly ILogger _logger;
         private readonly IProductService _productService;
+        private readonly IReviewService _reviewService;
 
         public ProductController(ILogger<ProductController> logger,
-             IProductService productService)
+             IProductService productService, IReviewService reviewService)
         {
             _logger = logger;
             _productService = productService;
+            _reviewService = reviewService;
         }
 
         // GET: Product
@@ -66,25 +69,25 @@ namespace ThreeAmigosProduct.Controllers
         }
 
         // GET: Product/Reviews/5
-        public async Task<IActionResult> Reviews(int id)
+        // when Review id equals ProductId
+        public async Task<IActionResult> Review(int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            IEnumerable<ProductDto> products = null;
+            IEnumerable<ReviewDto> reviews = null;
             try
             {
-                products = await _productService.GetProductsAsync(id);
+                reviews = await _reviewService.GetReviewDetailsListAsync(id);
             }
             catch (HttpRequestException)
             {
-                _logger.LogWarning("Exception Occured using staff service.");
-                //staffs = Array.Empty<StaffDto>();
+                _logger.LogWarning("Exception Occured using product service.");
+                reviews = Array.Empty<ReviewDto>();
             }
-
-            return View(products);
+            return View(reviews.ToList());
         }
 
         // GET: Stock
