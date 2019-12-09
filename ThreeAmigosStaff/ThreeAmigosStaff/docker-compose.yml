@@ -1,0 +1,27 @@
+﻿version: '3'
+
+services:
+  staff-app:
+    image: mhamwala/threeamigosapp
+    environment:
+      - ManageProductsUrl=http://manage-products-api
+    ports:
+      - 5100:80/tcp
+    depends_on:
+      - manage-products-api
+  ms-sql-server:
+    image: mcr.microsoft.com/mssql/server:2017-latest-ubuntu
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "Pa55w0rd"
+      MSSQL_PID: Express
+    ports:
+      - "1433:1433"
+  manage-products-api:
+    build: .
+    depends_on:
+      - ms-sql-server
+    environment:
+      DBServer: "ms-sql-server"
+    ports:
+      - "8080:80"
