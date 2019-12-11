@@ -18,7 +18,7 @@ services:
     ports:
       - "1433:1433"
   manage-products-api:
-    build: .
+    build: ../../../manageProductsAPI/
     depends_on:
       - ms-sql-server
     environment:
