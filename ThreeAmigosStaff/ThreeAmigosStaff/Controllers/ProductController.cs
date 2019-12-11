@@ -39,7 +39,7 @@ namespace ThreeAmigosProduct.Controllers
             }
             catch (HttpRequestException)
             {
-                _logger.LogWarning("Exception Occured using product service.");
+                _logger.LogWarning("Exception Occured using Product service (Getting all products).");
                 products = Array.Empty<ProductDto>();
             }
 
@@ -61,7 +61,7 @@ namespace ThreeAmigosProduct.Controllers
             }
             catch (HttpRequestException)
             {
-                _logger.LogWarning("Exception Occured using staff service.");
+                _logger.LogWarning("Exception Occured using Product service (Price History).");
                 //staffs = Array.Empty<StaffDto>();
             }
 
@@ -119,14 +119,12 @@ namespace ThreeAmigosProduct.Controllers
         }
 
         //// POST: Product/Create
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("Id,Name,Price,Stock")] Product product)
+        //public async Task<IActionResult> Create([Bind("Name,Price,Stock")] ProductDto product)
         //{
         //    if (ModelState.IsValid)
         //    {
-        //        _context.Add(product);
-        //        await _context.SaveChangesAsync();
+        //        _productService.GetProductsAsync(product);
+        //        await _productService.SaveChangesAsync();
         //        return RedirectToAction(nameof(Index));
         //    }
         //    return View(product);
