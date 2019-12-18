@@ -1,7 +1,8 @@
-﻿version: '3'
+version: '3'
 
 services:
-  ms-sql-server-customers:
+#Servers
+  ms-sql-server-orders:
     image: mcr.microsoft.com/mssql/server:2017-latest-ubuntu
     environment:
       ACCEPT_EULA: "Y"
@@ -9,16 +10,35 @@ services:
       MSSQL_PID: Express
     ports:
       - "1433:1433"
-  manage-customers-api:
+  ms-sql-server-products:
+    image: mcr.microsoft.com/mssql/server:2017-latest-ubuntu
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "Pa55w0rd"
+      MSSQL_PID: Express
+    ports:
+      - "1434:1433"
+  
+  #API's
+  manage-orders-api:
     build: ../../../customerorderapi/
     environment:
-      DBServer: "ms-sql-server-customers"
+      DBServer: "ms-sql-server-orders"
     ports:
       - "8081:80"
+  manage-products-api:
+    build: ../../../manageProductsAPI/
+    environment:
+      DBServer: "ms-sql-server-products"
+    ports:
+      - "8080:80"
+  
+  #Web APPS
   staff-app:
     build: .
     environment: 
-      - ManageCustomersUrl=http://manage-customers-api
+      - ManageOrdersUrl=http://manage-orders-api
+      - ManageProductsUrl=http://manage-products-api
     ports:
       - 5100:80
 #  ms-sql-server-staff:
