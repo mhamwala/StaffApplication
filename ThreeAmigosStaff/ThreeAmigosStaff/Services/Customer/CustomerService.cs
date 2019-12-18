@@ -3,27 +3,31 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace ThreeAmigosCustomer.Services
 {
     public class CustomerService : ICustomerService
     {
         private readonly HttpClient _client;
+        private readonly ILogger _logger;
 
-        public CustomerService(HttpClient client)
+        public CustomerService(HttpClient client, ILogger<CustomerService> logger)
         {
             client.BaseAddress = new System.Uri("http://localhost:5001/");
             client.Timeout = TimeSpan.FromSeconds(5);
             client.DefaultRequestHeaders.Add("Accept", "application/json");
             _client = client;
+            _logger = logger;
         }
 
         //Get all Customer
         public async Task<IEnumerable<CustomerDto>> GetCustomerAsync()
         {
-            var response = await _client.GetAsync("Customer/");
+            var response = await _client.GetAsync("customer/");
             if(response.StatusCode == HttpStatusCode.NotFound)
             {
+                _logger.LogWarning("FAIling to get all customers.");
                 return null;
             }
             response.EnsureSuccessStatusCode();
@@ -35,7 +39,7 @@ namespace ThreeAmigosCustomer.Services
         //Get all Customers
         public async Task<IEnumerable<CustomerDto>> GetCustomersAsync(int Id)
         {
-            var response = await _client.GetAsync("Customer/" + Id);
+            var response = await _client.GetAsync("customer/" + Id);
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 return null;
@@ -49,7 +53,7 @@ namespace ThreeAmigosCustomer.Services
         //Get Individual Customer Details
         public async Task<CustomerDto> GetCustomerDetailsAsync(int Id)
         {
-            var response = await _client.GetAsync("Customer/details/" + Id);
+            var response = await _client.GetAsync("customer/details/" + Id);
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 return null;

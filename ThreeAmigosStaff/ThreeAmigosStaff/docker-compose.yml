@@ -1,27 +1,37 @@
 ﻿version: '3'
 
 services:
-  staff-app:
-    image: mhamwala/threeamigosapp
-    environment:
-      - ManageProductsUrl=http://manage-products-api
-    ports:
-      - 5100:80/tcp
-    depends_on:
-      - manage-products-api
-  ms-sql-server:
+  ms-sql-server-customers:
     image: mcr.microsoft.com/mssql/server:2017-latest-ubuntu
     environment:
       ACCEPT_EULA: "Y"
-      SA_PASSWORD: "Pa55w0rd"
+      SA_PASSWORD: "Pa55w0rd!!!"
       MSSQL_PID: Express
     ports:
       - "1433:1433"
-  manage-products-api:
-    build: ../../../manageProductsAPI/
-    depends_on:
-      - ms-sql-server
+  manage-customers-api:
+    build: ../../../customerorderapi/
     environment:
-      DBServer: "ms-sql-server"
+      DBServer: "ms-sql-server-customers"
     ports:
-      - "8080:80"
+      - "8081:80"
+  staff-app:
+    build: .
+    environment: 
+      - ManageCustomersUrl=http://manage-customers-api
+    ports:
+      - 5100:80
+#  ms-sql-server-staff:
+#    image: mcr.microsoft.com/mssql/server:2017-latest-ubuntu
+#    environment:
+#      ACCEPT_EULA: "Y"
+#      SA_PASSWORD: "Pa55w0rd!!!"
+#      MSSQL_PID: Express
+#    ports:
+#      - "1434:1433"
+#  manage-staff-api:
+#    image: staffaccountserviceapi
+#    environment:
+#      DBServer: "ms-sql-server-staff"
+#    ports:
+#      - "8081:80"

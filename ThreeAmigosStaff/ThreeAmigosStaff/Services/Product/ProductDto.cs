@@ -1,8 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.Threading.Tasks;
-
-namespace ThreeAmigosProduct.Services
+﻿namespace ThreeAmigosProduct.Services
 {
     public class ProductDto
     {
