@@ -41,3 +41,17 @@ services:
       - ManageProductsUrl=http://manage-products-api
     ports:
       - 5100:80
+#  ms-sql-server-staff:
+#    image: mcr.microsoft.com/mssql/server:2017-latest-ubuntu
+#    environment:
+#      ACCEPT_EULA: "Y"
+#      SA_PASSWORD: "Pa55w0rd!!!"
+#      MSSQL_PID: Express
+#    ports:
+#      - "1434:1433"
+#  manage-staff-api:
+#    image: staffaccountserviceapi
+#    environment:
+#      DBServer: "ms-sql-server-staff"
+#    ports:
+#      - "8081:80"
