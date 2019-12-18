@@ -3,25 +3,28 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace ThreeAmigosOrder.Services
 {
     public class OrderService : IOrderService
     {
         private readonly HttpClient _client;
+        private readonly ILogger _logger;
 
-        public OrderService(HttpClient client)
+        public OrderService(HttpClient client, ILogger<OrderService> logger)
         {
-            client.BaseAddress = new System.Uri("http://localhost:5001/");
+            client.BaseAddress = new System.Uri("http://manage-customers-api/api/");
             client.Timeout = TimeSpan.FromSeconds(5);
             client.DefaultRequestHeaders.Add("Accept", "application/json");
             _client = client;
+            _logger = logger;
         }
 
         //Get all Order
         public async Task<IEnumerable<OrderDto>> GetOrderAsync()
         {
-            var response = await _client.GetAsync("Order/");
+            var response = await _client.GetAsync("ordersservice/");
             if(response.StatusCode == HttpStatusCode.NotFound)
             {
                 return null;
@@ -35,7 +38,7 @@ namespace ThreeAmigosOrder.Services
         //Get all Orders
         public async Task<IEnumerable<OrderDto>> GetOrdersAsync(int Id)
         {
-            var response = await _client.GetAsync("Order/" + Id);
+            var response = await _client.GetAsync("ordersservice/" + Id);
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 return null;
@@ -49,7 +52,7 @@ namespace ThreeAmigosOrder.Services
         //Get Individual Order Details
         public async Task<OrderDto> GetOrderDetailsAsync(int Id)
         {
-            var response = await _client.GetAsync("Order/details/" + Id);
+            var response = await _client.GetAsync("ordersservice/details/" + Id);
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 return null;
@@ -62,7 +65,7 @@ namespace ThreeAmigosOrder.Services
         //Post New Order Member
         public async Task<OrderDto> PostOrderAsync(OrderDto orders)
         {
-            var response = await _client.PostAsJsonAsync("Order/", orders);
+            var response = await _client.PostAsJsonAsync("ordersservice/", orders);
             if(response.StatusCode == HttpStatusCode.NotFound)
             {
                 return null;
@@ -75,7 +78,7 @@ namespace ThreeAmigosOrder.Services
         //Edit Individual Order Details
         public async Task<OrderDto> EditOrderDetailsAsync(int Id)
         {
-            var response = await _client.GetAsync("Order/edit/" + Id);
+            var response = await _client.GetAsync("ordersservice/edit/" + Id);
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 return null;
@@ -88,7 +91,7 @@ namespace ThreeAmigosOrder.Services
         //Get Edit Delete
         public async Task<OrderDto> GetDeleteOrderAsync(int Id)
         {
-            var response = await _client.GetAsync("Order/delete/" + Id);
+            var response = await _client.GetAsync("ordersservice/delete/" + Id);
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 return null;

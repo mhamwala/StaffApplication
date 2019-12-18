@@ -14,7 +14,7 @@ namespace ThreeAmigosProduct.Services
 
         public ProductService(HttpClient client, ILogger<ProductService> logger)
         {
-            client.BaseAddress = new System.Uri("http://manage-products-api/api/");
+            client.BaseAddress = new Uri("http://manage-products-api/api/");
             client.Timeout = TimeSpan.FromSeconds(5);
             client.DefaultRequestHeaders.Add("Accept", "application/json");
             _client = client;
@@ -24,14 +24,12 @@ namespace ThreeAmigosProduct.Services
         //Get all Product
         public async Task<IEnumerable<ProductDto>> GetProductAsync()
         {
-            _logger.LogWarning("FAIling to do stuff.");
-            Console.WriteLine("asjdhfjshd");
             var response = await _client.GetAsync("products/");
             if(response.StatusCode == HttpStatusCode.NotFound)
             {
+                _logger.LogWarning("FAIling to do stuff.");
                 return null;
             }
-            System.Console.WriteLine(response.StatusCode);
             response.EnsureSuccessStatusCode();
             var product = await response.Content.ReadAsAsync<IEnumerable<ProductDto>>();
             return product;
