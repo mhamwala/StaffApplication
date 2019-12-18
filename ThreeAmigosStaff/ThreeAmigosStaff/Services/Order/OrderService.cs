@@ -14,7 +14,7 @@ namespace ThreeAmigosOrder.Services
 
         public OrderService(HttpClient client, ILogger<OrderService> logger)
         {
-            client.BaseAddress = new System.Uri("http://manage-customers-api/api/");
+            client.BaseAddress = new System.Uri("http://manage-orders-api/api/");
             client.Timeout = TimeSpan.FromSeconds(5);
             client.DefaultRequestHeaders.Add("Accept", "application/json");
             _client = client;
