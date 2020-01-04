@@ -14,7 +14,7 @@ namespace ThreeAmigosCustomer.Services
 
         public CustomerService(HttpClient client, ILogger<CustomerService> logger)
         {
-            client.BaseAddress = new System.Uri("http://localhost:5001/");
+            client.BaseAddress = new System.Uri("http://manage-customers-api/api");
             client.Timeout = TimeSpan.FromSeconds(5);
             client.DefaultRequestHeaders.Add("Accept", "application/json");
             _client = client;
@@ -24,7 +24,7 @@ namespace ThreeAmigosCustomer.Services
         //Get all Customer
         public async Task<IEnumerable<CustomerDto>> GetCustomerAsync()
         {
-            var response = await _client.GetAsync("customer/");
+            var response = await _client.GetAsync("customeraccounts/");
             if(response.StatusCode == HttpStatusCode.NotFound)
             {
                 _logger.LogWarning("FAIling to get all customers.");
@@ -39,7 +39,7 @@ namespace ThreeAmigosCustomer.Services
         //Get all Customers
         public async Task<IEnumerable<CustomerDto>> GetCustomersAsync(int Id)
         {
-            var response = await _client.GetAsync("customer/" + Id);
+            var response = await _client.GetAsync("customeraccounts/" + Id);
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 return null;
@@ -53,7 +53,7 @@ namespace ThreeAmigosCustomer.Services
         //Get Individual Customer Details
         public async Task<CustomerDto> GetCustomerDetailsAsync(int Id)
         {
-            var response = await _client.GetAsync("customer/details/" + Id);
+            var response = await _client.GetAsync("customeraccounts/details/" + Id);
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 return null;
@@ -66,7 +66,7 @@ namespace ThreeAmigosCustomer.Services
         //Post New Customer Member
         public async Task<CustomerDto> PostCustomerAsync(CustomerDto customers)
         {
-            var response = await _client.PostAsJsonAsync("Customer/", customers);
+            var response = await _client.PostAsJsonAsync("customeraccounts/", customers);
             if(response.StatusCode == HttpStatusCode.NotFound)
             {
                 return null;
@@ -79,7 +79,7 @@ namespace ThreeAmigosCustomer.Services
         //Edit Individual Customer Details
         public async Task<CustomerDto> EditCustomerDetailsAsync(int Id)
         {
-            var response = await _client.GetAsync("Customer/edit/" + Id);
+            var response = await _client.GetAsync("customeraccounts/edit/" + Id);
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 return null;
@@ -92,7 +92,7 @@ namespace ThreeAmigosCustomer.Services
         //Get Edit Delete
         public async Task<CustomerDto> GetDeleteCustomerAsync(int Id)
         {
-            var response = await _client.GetAsync("Customer/delete/" + Id);
+            var response = await _client.GetAsync("customeraccounts/delete/" + Id);
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 return null;
