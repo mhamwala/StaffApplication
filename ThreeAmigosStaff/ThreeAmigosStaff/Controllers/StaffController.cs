@@ -11,7 +11,6 @@ namespace ThreeAmigosStaff.Controllers
 {
     public class StaffController : Controller
     {
-        //private readonly MvcStaffContext _context;
         private readonly ILogger _logger;
         private readonly IStaffService _staffService;
 
