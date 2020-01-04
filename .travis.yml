@@ -10,4 +10,4 @@ dotnet: 2.2
 script:
  - . ./ci/test.sh
  - . ./ci/build.sh
- - . ./ci/publish.sh
+#  - . ./ci/publish.sh
