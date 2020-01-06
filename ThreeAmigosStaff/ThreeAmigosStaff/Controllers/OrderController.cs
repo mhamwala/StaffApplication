@@ -82,27 +82,40 @@ namespace ThreeAmigosOrder.Controllers
         //    return View(order);
         //}
 
-        //// GET: Order/Create
-        //public IActionResult Create()
-        //{
-        //    return View();
-        //}
+        // GET: Order/Create
+        public IActionResult Create()
+        {
+            return View();
+        }
 
-        //// POST: Order/Create
-        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("Id,CustomerID,OrderID,Total,Quantity,ShippingAddress,OrderDate,ShippingDate")] Order order)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _context.Add(order);
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(order);
-        //}
+        // POST: Order/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("Id,CustomerID,ProductID,Total,Quantity,ShippingAddress,OrderDate,ShippingDate")] OrderDto order)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                await _orderService.PostOrderAsync(new OrderDto
+                {
+                    CustomerID = order.CustomerID,
+                    ProductID = order.ProductID,
+                    Total = order.Total,
+                    Quantity = order.Quantity,
+                    ShippingAddress = order.ShippingAddress,
+                    OrderDate = order.OrderDate,
+                    ShippingDate = order.ShippingDate
+                });
+            }
+            catch (HttpRequestException)
+            {
+                _logger.LogWarning("Exception Occured using staff service.");
+            }
+            return View(order);
+        }
 
         // GET: Order/Edit/5
         public async Task<IActionResult> Edit(int id)

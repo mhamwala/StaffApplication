@@ -83,27 +83,50 @@ namespace ThreeAmigosStaff.Controllers
         //    return View(purchase);
         //}
 
-        //// GET: Purchase/Create
-        //public IActionResult Create()
-        //{
-        //    return View();
-        //}
+        // GET: Purchase/Create
+        public IActionResult Create()
+        {
+            return View();
+        }
 
-        //// POST: Purchase/Create
-        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("Id,ProductName,UserId,UserName,Quantity,Price,Date,Accepted,CardNumber,SortCode,SecurityNumber")] Purchase purchase)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _context.Add(purchase);
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(purchase);
-        //}
+        // POST: Purchase/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("Id,ProductName,UserId,UserName,Quantity,Price,Date,Accepted,CardNumber,SortCode,SecurityNumber")] PurchaseDto purchase)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                await _purchaseService.PostPurchaseAsync(new PurchaseDto
+                {
+                    ProductName = purchase.ProductName,
+                    UserId = purchase.UserId,
+                    UserName = purchase.UserName,
+                    Quantity = purchase.Quantity,
+                    Price = purchase.Price,
+                    Date = purchase.Date,
+                    Accepted = purchase.Accepted,
+                    CardNumber = purchase.CardNumber,
+                    SortCode = purchase.SortCode,
+                    SecurityNumber = purchase.SecurityNumber
+                });
+            }
+            catch (HttpRequestException)
+            {
+                _logger.LogWarning("Exception Occured using staff service.");
+            }
+            return View(purchase);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("Id,CustomerID,ProductID,Total,Quantity,ShippingAddress,OrderDate,ShippingDate")] OrderDto order)
+        {
+            return View(order);
+        }
 
         //// GET: Purchase/Edit/5
         //public async Task<IActionResult> Edit(int? id)

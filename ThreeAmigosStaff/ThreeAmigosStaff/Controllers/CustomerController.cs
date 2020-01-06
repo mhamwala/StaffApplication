@@ -65,27 +65,39 @@ namespace ThreeAmigosCustomer.Controllers
             return View(customers);
         }
 
-        //// GET: Customer/Create
-        //public IActionResult Create()
-        //{
-        //    return View();
-        //}
+        // GET: Customer/Create
+        public IActionResult Create()
+        {
+            return View();
+        }
 
-        //// POST: Customer/Create
-        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("Id,Name,Email,Password,Address,PostCode,Telephone")] Customer customer)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _context.Add(customer);
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(customer);
-        //}
+        // POST: Customer/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("Id,Name,Email,Password,Address,PostCode,Telephone")] CustomerDto customer)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                await _customerService.PostCustomerAsync(new CustomerDto
+                {
+                    Name = customer.Name,
+                    Email = customer.Email,
+                    Password = customer.Password,
+                    Address = customer.Address,
+                    PostCode = customer.PostCode,
+                    Telephone = customer.Telephone
+                });
+            }
+            catch (HttpRequestException)
+            {
+                _logger.LogWarning("Exception Occured using staff service.");
+            }
+            return View(customer);
+        }
 
         // GET: Customer/Edit/5
         public async Task<IActionResult> Edit(int id)
