@@ -118,18 +118,30 @@ namespace ThreeAmigosProduct.Controllers
             return View();
         }
 
-        //// POST: Product/Create
-        //public async Task<IActionResult> Create([Bind("Name,Price,Stock")] ProductDto product)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _productService.GetProductsAsync(product);
-        //        await _productService.SaveChangesAsync();
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(product);
-        //}
+        // POST: Product/Create
+        public async Task<IActionResult> Create([Bind("Name,Price,Stock")] ProductDto product)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                await _productService.PostProductAsync(new ProductDto
+                {
+                    Name = product.Name,
+                    Price = product.Price,
+                    Stock = product.Stock
+                });
+            }
+            catch (HttpRequestException)
+            {
+                _logger.LogWarning("Exception Occured using staff service.");
+            }
+            return View(product);
+        }
 
+  
         // GET: Product/Edit/5
         public async Task<IActionResult> Edit(int id)
         {
