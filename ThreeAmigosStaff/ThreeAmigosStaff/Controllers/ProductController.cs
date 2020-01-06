@@ -119,6 +119,8 @@ namespace ThreeAmigosProduct.Controllers
         }
 
         // POST: Product/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Name,Price,Stock")] ProductDto product)
         {
             if (!ModelState.IsValid)
