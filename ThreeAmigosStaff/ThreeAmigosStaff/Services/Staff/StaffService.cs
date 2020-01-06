@@ -14,7 +14,7 @@ namespace ThreeAmigosStaff.Services
 
         public StaffService(HttpClient client, ILogger<StaffService> logger)
         {
-            client.BaseAddress = new System.Uri("http://manage-staff-api/api/");
+            client.BaseAddress = new System.Uri("https://managestaffapi.azurewebsites.net/api/");
             client.Timeout = TimeSpan.FromSeconds(5);
             client.DefaultRequestHeaders.Add("Accept", "application/json");
             _client = client;
