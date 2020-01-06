@@ -121,13 +121,6 @@ namespace ThreeAmigosStaff.Controllers
             return View(purchase);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CustomerID,ProductID,Total,Quantity,ShippingAddress,OrderDate,ShippingDate")] OrderDto order)
-        {
-            return View(order);
-        }
-
         //// GET: Purchase/Edit/5
         //public async Task<IActionResult> Edit(int? id)
         //{
