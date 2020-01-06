@@ -45,5 +45,11 @@ namespace ThreeAmigosStaff.Services
             var staff = _staff.FirstOrDefault(r => r.Id == Id);
             return Task.FromResult(staff);
         }
+
+        public Task<StaffDto> DeleteStaffAsync(int Id)
+        {
+            var staff = _staff.FirstOrDefault(r => r.Id == Id);
+            return Task.FromResult(staff);
+        }
     }
 }

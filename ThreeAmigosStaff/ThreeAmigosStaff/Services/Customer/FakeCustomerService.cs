@@ -48,5 +48,17 @@ namespace ThreeAmigosCustomer.Services
         {
             return Task.FromResult(_customer.AsEnumerable());
         }
+
+        public Task<CustomerDto> DeleteOrderAsync(int Id)
+        {
+            var customer = _customer.FirstOrDefault(r => r.Id == Id);
+            return Task.FromResult(customer);
+        }
+
+        public Task<CustomerDto> DeleteCustomerAsync(int Id)
+        {
+            var customer = _customer.FirstOrDefault(r => r.Id == Id);
+            return Task.FromResult(customer);
+        }
     }
 }

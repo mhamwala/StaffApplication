@@ -53,7 +53,7 @@ namespace ThreeAmigosProduct.Services
         //Get Individual Product Details
         public async Task<ProductDto> GetProductDetailsAsync(int Id)
         {
-            var response = await _client.GetAsync("products/details/" + Id);
+            var response = await _client.GetAsync("products/" + Id);
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 return null;
@@ -79,7 +79,7 @@ namespace ThreeAmigosProduct.Services
         //Edit Individual Product Details
         public async Task<ProductDto> EditProductDetailsAsync(int Id)
         {
-            var response = await _client.GetAsync("products/edit/" + Id);
+            var response = await _client.GetAsync("products/" + Id);
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 return null;
@@ -92,7 +92,20 @@ namespace ThreeAmigosProduct.Services
         //Get Edit Delete
         public async Task<ProductDto> GetDeleteProductAsync(int Id)
         {
-            var response = await _client.GetAsync("products/delete/" + Id);
+            var response = await _client.DeleteAsync("products/" + Id);
+            if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                return null;
+            }
+            response.EnsureSuccessStatusCode();
+            var product = await response.Content.ReadAsAsync<ProductDto>();
+            return product;
+        }
+
+        //Delete
+        public async Task<ProductDto> DeleteProductAsync(int Id)
+        {
+            var response = await _client.DeleteAsync("products/" + Id);
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 return null;

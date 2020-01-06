@@ -14,7 +14,7 @@ namespace ThreeAmigosCustomer.Services
 
         public CustomerService(HttpClient client, ILogger<CustomerService> logger)
         {
-            client.BaseAddress = new System.Uri("https://customerorderapi.azurewebsites.net/api");
+            client.BaseAddress = new System.Uri("https://customerorderapi.azurewebsites.net/api/");
             client.Timeout = TimeSpan.FromSeconds(5);
             client.DefaultRequestHeaders.Add("Accept", "application/json");
             _client = client;
@@ -53,7 +53,7 @@ namespace ThreeAmigosCustomer.Services
         //Get Individual Customer Details
         public async Task<CustomerDto> GetCustomerDetailsAsync(int Id)
         {
-            var response = await _client.GetAsync("customeraccounts/details/" + Id);
+            var response = await _client.GetAsync("customeraccounts/" + Id);
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 return null;
@@ -79,7 +79,7 @@ namespace ThreeAmigosCustomer.Services
         //Edit Individual Customer Details
         public async Task<CustomerDto> EditCustomerDetailsAsync(int Id)
         {
-            var response = await _client.GetAsync("customeraccounts/edit/" + Id);
+            var response = await _client.GetAsync("customeraccounts/" + Id);
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 return null;
@@ -92,7 +92,7 @@ namespace ThreeAmigosCustomer.Services
         //Get Edit Delete
         public async Task<CustomerDto> GetDeleteCustomerAsync(int Id)
         {
-            var response = await _client.GetAsync("customeraccounts/delete/" + Id);
+            var response = await _client.DeleteAsync("customeraccounts/" + Id);
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 return null;
@@ -100,6 +100,19 @@ namespace ThreeAmigosCustomer.Services
             response.EnsureSuccessStatusCode();
             var customer = await response.Content.ReadAsAsync<CustomerDto>();
             return customer;
+        }
+
+        //Delete
+        public async Task<CustomerDto> DeleteCustomerAsync(int Id)
+        {
+            var response = await _client.DeleteAsync("customeraccounts/" + Id);
+            if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                return null;
+            }
+            response.EnsureSuccessStatusCode();
+            var order = await response.Content.ReadAsAsync<CustomerDto>();
+            return order;
         }
     }
 }

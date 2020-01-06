@@ -31,6 +31,12 @@ namespace ThreeAmigosOrder.Services
             return Task.FromResult(order);
         }
 
+        Task<OrderDto> IOrderService.PutOrderAsync(OrderDto order)
+        {
+            _order.Add(order);
+            return Task.FromResult(order);
+        }
+
         Task<OrderDto> IOrderService.EditOrderDetailsAsync(int Id)
         {
             var order = _order.FirstOrDefault(r => r.Id == Id);
@@ -46,6 +52,12 @@ namespace ThreeAmigosOrder.Services
         public Task<IEnumerable<OrderDto>> GetOrdersAsync(int Id)
         {
             return Task.FromResult(_order.AsEnumerable());
+        }
+
+        public Task<OrderDto> DeleteOrderAsync(int Id)
+        {
+            var order = _order.FirstOrDefault(r => r.Id == Id);
+            return Task.FromResult(order);
         }
     }
 }

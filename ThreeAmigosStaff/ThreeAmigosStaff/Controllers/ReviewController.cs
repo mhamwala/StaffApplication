@@ -45,5 +45,43 @@ namespace ThreeAmigosReview.Controllers
 
             return View(reviews.ToList());
         }
+
+        // GET: api/review/5
+        public async Task<IActionResult> Delete(int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return NotFound();
+            }
+
+            ReviewDto review = null;
+            try
+            {
+                review = await _reviewService.GetDeleteReviewAsync(id);
+            }
+            catch (HttpRequestException)
+            {
+                _logger.LogWarning("Exception Occured using purchase service.");
+            }
+
+            return View(review);
+        }
+
+        // Delete: api/review/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var purchase = await _reviewService.DeleteReviewAsync(id);
+            if (purchase == null)
+            {
+                return NotFound();
+            }
+
+            await _reviewService.GetReviewAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
     }
 }

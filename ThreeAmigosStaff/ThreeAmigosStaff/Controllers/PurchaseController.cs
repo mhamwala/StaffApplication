@@ -223,34 +223,43 @@ namespace ThreeAmigosStaff.Controllers
         //    return View(purchase);
         //}
 
-        //// GET: Purchase/Delete/5
-        //public async Task<IActionResult> Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+        // GET: api/purchase/5
+        public async Task<IActionResult> Delete(int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return NotFound();
+            }
 
-        //    var purchase = await _context.Purchase
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (purchase == null)
-        //    {
-        //        return NotFound();
-        //    }
+            PurchaseDto purchase = null;
+            try
+            {
+                purchase = await _purchaseService.GetDeletePurchaseAsync(id);
+            }
+            catch (HttpRequestException)
+            {
+                _logger.LogWarning("Exception Occured using purchase service.");
+            }
 
-        //    return View(purchase);
-        //}
+            return View(purchase);
+        }
 
-        //// POST: Purchase/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(int id)
-        //{
-        //    var purchase = await _context.Purchase.FindAsync(id);
-        //    _context.Purchase.Remove(purchase);
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction(nameof(Index));
-        //}
+        // Delete: api/Purchase/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var purchase = await _purchaseService.DeletePurchaseAsync(id);
+            if (purchase == null)
+            {
+                return NotFound();
+            }
+
+            await _purchaseService.GetPurchaseAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
 
         //private bool PurchaseExists(int id)
         //{

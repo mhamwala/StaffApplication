@@ -17,5 +17,7 @@ namespace ThreeAmigosProduct.Services
         Task<ProductDto> EditProductDetailsAsync(int Id);
 
         Task<ProductDto> GetDeleteProductAsync(int Id);
+
+        Task<ProductDto> DeleteProductAsync(int Id);
     }
 }

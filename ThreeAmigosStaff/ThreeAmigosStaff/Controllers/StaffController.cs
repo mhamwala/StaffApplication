@@ -141,45 +141,44 @@ namespace ThreeAmigosStaff.Controllers
         //        return RedirectToAction(nameof(Index));
         //    }
         //    return View(staff);
-        //}
+        //
 
-        // GET: Staff/Edit/5
+        // GET: api/staff/5
         public async Task<IActionResult> Delete(int id)
         {
-            var staff = await _staffService.GetDeleteStaffAsync(id);
+            if (!ModelState.IsValid)
+            {
+                return NotFound();
+            }
+
+            StaffDto staff = null;
+            try
+            {
+                staff = await _staffService.GetDeleteStaffAsync(id);
+            }
+            catch (HttpRequestException)
+            {
+                _logger.LogWarning("Exception Occured using purchase service.");
+            }
+
+            return View(staff);
+        }
+
+        // Delete: api/staff/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var staff = await _staffService.DeleteStaffAsync(id);
             if (staff == null)
             {
                 return NotFound();
             }
-            return View(staff);
+
+            await _staffService.GetStaffAsync();
+
+            return RedirectToAction(nameof(Index));
         }
-
-        //// GET: Staff/Delete/5
-        //public async Task<IActionResult> Delete(int id)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var staff = await _staffService.GetDeleteStaffAsync(id);
-        //    if (staff == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return View(staff);
-        //}
-
-        // POST: Staff/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(int id)
-        //{
-        //    var staff = await _context.Staff.FindAsync(id);
-        //    _context.Staff.Remove(staff);
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction(nameof(Index));
-        //}
 
         //private bool StaffExists(int id)
         //{

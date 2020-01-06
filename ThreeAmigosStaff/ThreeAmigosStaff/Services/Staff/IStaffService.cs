@@ -15,5 +15,7 @@ namespace ThreeAmigosStaff.Services
         Task<StaffDto> EditStaffDetailsAsync(int Id);
 
         Task<StaffDto> GetDeleteStaffAsync(int Id);
+
+        Task<StaffDto> DeleteStaffAsync(int Id);
     }
 }

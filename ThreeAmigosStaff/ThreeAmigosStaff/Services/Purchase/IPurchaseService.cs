@@ -16,5 +16,7 @@ namespace ThreeAmigosPurchase.Services
         Task<PurchaseDto> EditPurchaseDetailsAsync(int Id);
 
         Task<PurchaseDto> GetDeletePurchaseAsync(int Id);
+
+        Task<PurchaseDto> DeletePurchaseAsync(int Id);
     }
 }
