@@ -13,8 +13,12 @@ namespace ThreeAmigosOrder.Services
 
         Task<OrderDto> PostOrderAsync(OrderDto OrderDto);
 
+        Task<OrderDto> PutOrderAsync(OrderDto OrderDto);
+
         Task<OrderDto> EditOrderDetailsAsync(int Id);
 
         Task<OrderDto> GetDeleteOrderAsync(int Id);
+
+        Task<OrderDto> DeleteOrderAsync(int Id);
     }
 }

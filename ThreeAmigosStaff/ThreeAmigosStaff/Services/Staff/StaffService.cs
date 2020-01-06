@@ -38,7 +38,7 @@ namespace ThreeAmigosStaff.Services
         //Get Individual Staff Details
         public async Task<StaffDto> GetStaffDetailsAsync(int Id)
         {
-            var response = await _client.GetAsync("staffaccounts/details/" + Id);
+            var response = await _client.GetAsync("staffaccounts/" + Id);
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 return null;
@@ -64,7 +64,7 @@ namespace ThreeAmigosStaff.Services
         //Edit Individual Staff Details
         public async Task<StaffDto> EditStaffDetailsAsync(int Id)
         {
-            var response = await _client.GetAsync("staffaccounts/edit/" + Id);
+            var response = await _client.GetAsync("staffaccounts/" + Id);
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 return null;
@@ -74,10 +74,23 @@ namespace ThreeAmigosStaff.Services
             return staff;
         }
 
-        //Delete staff
+        // GET: Delete staff
         public async Task<StaffDto> GetDeleteStaffAsync(int Id)
         {
-            var response = await _client.GetAsync("staffaccounts/delete/" + Id);
+            var response = await _client.GetAsync("staffaccounts/" + Id);
+            if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                return null;
+            }
+            response.EnsureSuccessStatusCode();
+            var staff = await response.Content.ReadAsAsync<StaffDto>();
+            return staff;
+        }
+
+        //Delete
+        public async Task<StaffDto> DeleteStaffAsync(int Id)
+        {
+            var response = await _client.DeleteAsync("staffaccounts/" + Id);
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 return null;

@@ -109,5 +109,18 @@ namespace ThreeAmigosReview.Services
             var review = await response.Content.ReadAsAsync<IEnumerable<ReviewDto>>();
             return review;
         }
+
+        //Delete
+        public async Task<ReviewDto> DeleteReviewAsync(int Id)
+        {
+            var response = await _client.DeleteAsync("Review/" + Id);
+            if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                return null;
+            }
+            response.EnsureSuccessStatusCode();
+            var review = await response.Content.ReadAsAsync<ReviewDto>();
+            return review;
+        }
     }
 }

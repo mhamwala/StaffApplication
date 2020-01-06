@@ -56,5 +56,11 @@ namespace ThreeAmigosReview.Services
         {
             return Task.FromResult(_review.AsEnumerable());
         }
+
+        public Task<ReviewDto> DeleteReviewAsync(int Id)
+        {
+            var purchase = _review.FirstOrDefault(r => r.Id == Id);
+            return Task.FromResult(purchase);
+        }
     }
 }

@@ -14,7 +14,7 @@ namespace ThreeAmigosOrder.Services
 
         public OrderService(HttpClient client, ILogger<OrderService> logger)
         {
-            client.BaseAddress = new System.Uri("https://customerorderapi.azurewebsites.net/api/");
+            client.BaseAddress = new System.Uri("https://manageordersapi.azurewebsites.net/api/");
             client.Timeout = TimeSpan.FromSeconds(5);
             client.DefaultRequestHeaders.Add("Accept", "application/json");
             _client = client;
@@ -52,7 +52,7 @@ namespace ThreeAmigosOrder.Services
         //Get Individual Order Details
         public async Task<OrderDto> GetOrderDetailsAsync(int Id)
         {
-            var response = await _client.GetAsync("ordersservice/details/" + Id);
+            var response = await _client.GetAsync("ordersservice/" + Id);
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 return null;
@@ -75,10 +75,22 @@ namespace ThreeAmigosOrder.Services
             return order;
         }
 
+        //Put New Order Member
+        public async Task<OrderDto> PutOrderAsync(OrderDto order)
+        {
+            var response = await _client.PutAsJsonAsync("ordersservice/edit", order.Id);
+            if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                return null;
+            }
+            response.EnsureSuccessStatusCode();
+            return await response.Content.ReadAsAsync<OrderDto>();
+        }
+
         //Edit Individual Order Details
         public async Task<OrderDto> EditOrderDetailsAsync(int Id)
         {
-            var response = await _client.GetAsync("ordersservice/edit/" + Id);
+            var response = await _client.GetAsync("ordersservice/" + Id);
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 return null;
@@ -88,10 +100,23 @@ namespace ThreeAmigosOrder.Services
             return order;
         }
 
-        //Get Edit Delete
+        //Get Delete
         public async Task<OrderDto> GetDeleteOrderAsync(int Id)
         {
-            var response = await _client.GetAsync("ordersservice/delete/" + Id);
+            var response = await _client.GetAsync("ordersservice/" + Id);
+            if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                return null;
+            }
+            response.EnsureSuccessStatusCode();
+            var order = await response.Content.ReadAsAsync<OrderDto>();
+            return order;
+        }
+
+        //Delete
+        public async Task<OrderDto> DeleteOrderAsync(int Id)
+        {
+            var response = await _client.DeleteAsync("ordersservice/" + Id);
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 return null;

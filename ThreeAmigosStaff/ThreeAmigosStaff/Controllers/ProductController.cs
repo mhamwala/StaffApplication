@@ -243,34 +243,42 @@ namespace ThreeAmigosProduct.Controllers
         //    return View(product);
         //}
 
-        //// GET: Product/Delete/5
-        //public async Task<IActionResult> Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+        // GET: api/Product/5
+        public async Task<IActionResult> Delete(int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return NotFound();
+            }
 
-        //    var product = await _context.Product
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (product == null)
-        //    {
-        //        return NotFound();
-        //    }
+            ProductDto product = null;
+            try
+            {
+                product = await _productService.GetDeleteProductAsync(id);
+            }
+            catch (HttpRequestException)
+            {
+                _logger.LogWarning("Exception Occured using product service.");
+            }
 
-        //    return View(product);
-        //}
+            return View(product);
+        }
 
-        //// POST: Product/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(int id)
-        //{
-        //    var product = await _context.Product.FindAsync(id);
-        //    _context.Product.Remove(product);
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction(nameof(Index));
-        //}
+        // Delete: api/Product/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var product = await _productService.DeleteProductAsync(id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            await _productService.GetProductAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
 
         //private bool ProductExists(int id)
         //{

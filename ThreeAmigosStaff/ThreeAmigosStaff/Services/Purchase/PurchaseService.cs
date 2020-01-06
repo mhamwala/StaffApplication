@@ -49,7 +49,7 @@ namespace ThreeAmigosPurchase.Services
         //Get Individual Purchase Details
         public async Task<PurchaseDto> GetPurchaseDetailsAsync(int Id)
         {
-            var response = await _client.GetAsync("Purchase/details/" + Id);
+            var response = await _client.GetAsync("Purchase/" + Id);
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 return null;
@@ -75,7 +75,7 @@ namespace ThreeAmigosPurchase.Services
         //Edit Individual Purchase Details
         public async Task<PurchaseDto> EditPurchaseDetailsAsync(int Id)
         {
-            var response = await _client.GetAsync("Purchase/edit/" + Id);
+            var response = await _client.GetAsync("Purchase/" + Id);
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 return null;
@@ -88,7 +88,20 @@ namespace ThreeAmigosPurchase.Services
         //Get Edit Delete
         public async Task<PurchaseDto> GetDeletePurchaseAsync(int Id)
         {
-            var response = await _client.GetAsync("Purchase/delete/" + Id);
+            var response = await _client.GetAsync("Purchase/" + Id);
+            if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                return null;
+            }
+            response.EnsureSuccessStatusCode();
+            var purchase = await response.Content.ReadAsAsync<PurchaseDto>();
+            return purchase;
+        }
+
+        //Delete
+        public async Task<PurchaseDto> DeletePurchaseAsync(int Id)
+        {
+            var response = await _client.DeleteAsync("Purchase/" + Id);
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 return null;

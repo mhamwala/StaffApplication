@@ -19,5 +19,7 @@ namespace ThreeAmigosReview.Services
         Task<ReviewDto> EditReviewDetailsAsync(int Id);
 
         Task<ReviewDto> GetDeleteReviewAsync(int Id);
+
+        Task<ReviewDto> DeleteReviewAsync(int Id);
     }
 }

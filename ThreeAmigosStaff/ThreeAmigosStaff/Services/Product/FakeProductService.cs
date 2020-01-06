@@ -48,5 +48,11 @@ namespace ThreeAmigosProduct.Services
         {
             return Task.FromResult(_product.AsEnumerable());
         }
+
+        public Task<ProductDto> DeleteProductAsync(int Id)
+        {
+            var product = _product.FirstOrDefault(r => r.Id == Id);
+            return Task.FromResult(product);
+        }
     }
 }

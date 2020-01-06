@@ -150,7 +150,7 @@ namespace ThreeAmigosCustomer.Controllers
         //    return View(customer);
         //}
 
-        // GET: Customer/Delete/5
+        // GET: api/Customer/5
         public async Task<IActionResult> Delete(int id)
         {
             if (!ModelState.IsValid)
@@ -158,24 +158,34 @@ namespace ThreeAmigosCustomer.Controllers
                 return NotFound();
             }
 
-            var customer = await _customerService.GetDeleteCustomerAsync(id);
-            if (customer == null)
+            CustomerDto customer = null;
+            try
             {
-                return NotFound();
+                customer = await _customerService.GetDeleteCustomerAsync(id);
             }
+            catch (HttpRequestException)
+            {
+                _logger.LogWarning("Exception Occured using customer service.");
+            }
+
             return View(customer);
         }
 
-        //// POST: Customer/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(int id)
-        //{
-        //    var customer = await _context.Customer.FindAsync(id);
-        //    _context.Customer.Remove(customer);
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction(nameof(Index));
-        //}
+        // Delete: api/Customer/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var order = await _customerService.DeleteCustomerAsync(id);
+            if (order == null)
+            {
+                return NotFound();
+            }
+
+            await _customerService.GetCustomerAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
 
         //private bool CustomerExists(int id)
         //{

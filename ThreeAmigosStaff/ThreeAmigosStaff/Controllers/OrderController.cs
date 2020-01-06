@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using ThreeAmigosOrder.Services;
 
@@ -118,57 +119,65 @@ namespace ThreeAmigosOrder.Controllers
         }
 
         // GET: Order/Edit/5
-        public async Task<IActionResult> Edit(int id)
-        {
-            if (!ModelState.IsValid)
-            {
-                return NotFound();
-            }
+        //public async Task<IActionResult> Edit(int id)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var order = await _orderService.EditOrderDetailsAsync(id);
-            if (order == null)
-            {
-                return NotFound();
-            }
-            return View(order);
-        }
+        //    var order = await _orderService.EditOrderDetailsAsync(id);
+        //    if (order == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    return View(order);
+        //}
 
-        //// POST: Order/Edit/5
-        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
+        ////// POST: Order/Edit/5
+        //[HttpPost, ActionName("Delete")]
         //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int id, [Bind("Id,CustomerID,OrderID,Total,Quantity,ShippingAddress,OrderDate,ShippingDate")] Order order)
+        //public async Task<IActionResult> Edit(int id, [Bind("Id,CustomerID,OrderID,Total,Quantity,ShippingAddress,OrderDate,ShippingDate")] OrderDto order)
         //{
         //    if (id != order.Id)
         //    {
         //        return NotFound();
         //    }
 
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _context.Update(order);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!OrderExists(order.Id))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(order);
+        //    await _orderService.PutOrderAsync(order);
+
+        //    //try
+        //    //{
+        //    //    await _context.SaveChangesAsync();
+        //    //}
+        //    //catch
+        //    //{
+
+        //    //}
+
+        //    return RedirectToAction(nameof(Index));
         //}
 
-        // GET: Order/Delete/5
+        // POST: Order/Create
+        [HttpPut]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,CustomerID,OrderID,Total,Quantity,ShippingAddress,OrderDate,ShippingDate")] OrderDto order)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                await _orderService.PutOrderAsync(order);
+            }
+            catch (HttpRequestException)
+            {
+                _logger.LogWarning("Exception Occured using staff EDIT PUT REquest.");
+            }
+            return NoContent();
+        }
+
+        // GET: api/Order/5
         public async Task<IActionResult> Delete(int id)
         {
             if (!ModelState.IsValid)
@@ -176,24 +185,34 @@ namespace ThreeAmigosOrder.Controllers
                 return NotFound();
             }
 
-            var order = await _orderService.GetDeleteOrderAsync(id);
+            OrderDto order = null;
+            try
+            {
+                order = await _orderService.GetDeleteOrderAsync(id);
+            }
+            catch (HttpRequestException)
+            {
+                _logger.LogError("THIS IS THE ORDER inside catch   " + order);
+                _logger.LogWarning("Exception Occured using order service.");
+            }
+
+            return View(order);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var order = await _orderService.DeleteOrderAsync(id);
             if (order == null)
             {
                 return NotFound();
             }
-            return View(order);
-        }
 
-        //// POST: Order/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(int id)
-        //{
-        //    var order = await _context.Order.FindAsync(id);
-        //    _context.Order.Remove(order);
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction(nameof(Index));
-        //}
+            await _orderService.GetOrderAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
 
         //private bool OrderExists(int id)
         //{

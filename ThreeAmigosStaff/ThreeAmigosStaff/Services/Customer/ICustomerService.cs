@@ -17,5 +17,7 @@ namespace ThreeAmigosCustomer.Services
         Task<CustomerDto> EditCustomerDetailsAsync(int Id);
 
         Task<CustomerDto> GetDeleteCustomerAsync(int Id);
+
+        Task<CustomerDto> DeleteCustomerAsync(int Id);
     }
 }

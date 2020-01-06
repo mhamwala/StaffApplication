@@ -48,5 +48,11 @@ namespace ThreeAmigosPurchase.Services
         {
             return Task.FromResult(_purchase.AsEnumerable());
         }
+
+        public Task<PurchaseDto> DeletePurchaseAsync(int Id)
+        {
+            var purchase = _purchase.FirstOrDefault(r => r.Id == Id);
+            return Task.FromResult(purchase);
+        }
     }
 }
