@@ -14,7 +14,7 @@ namespace ThreeAmigosCustomer.Services
 
         public CustomerService(HttpClient client, ILogger<CustomerService> logger)
         {
-            client.BaseAddress = new System.Uri("https://customerorderapi.azurewebsites.net/api/");
+            client.BaseAddress = new System.Uri("https://managecustomersapi.azurewebsites.net/api/");
             client.Timeout = TimeSpan.FromSeconds(5);
             client.DefaultRequestHeaders.Add("Accept", "application/json");
             _client = client;
