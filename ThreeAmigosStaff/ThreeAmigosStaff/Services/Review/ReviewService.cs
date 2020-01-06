@@ -13,7 +13,7 @@ namespace ThreeAmigosReview.Services
 
         public ReviewService(HttpClient client)
         {
-            client.BaseAddress = new System.Uri("http://localhost:5001/");
+            client.BaseAddress = new System.Uri("https://managereviewsapi.azurewebsites.net/api/");
             client.Timeout = TimeSpan.FromSeconds(5);
             client.DefaultRequestHeaders.Add("Accept", "application/json");
             _client = client;
