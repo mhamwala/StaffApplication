@@ -74,7 +74,7 @@ namespace ThreeAmigosStaff.Services
             return staff;
         }
 
-        //Get Edit Delete
+        //Delete staff
         public async Task<StaffDto> GetDeleteStaffAsync(int Id)
         {
             var response = await _client.GetAsync("staffaccounts/delete/" + Id);
