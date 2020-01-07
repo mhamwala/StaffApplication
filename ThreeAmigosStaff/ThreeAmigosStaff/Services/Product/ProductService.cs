@@ -14,7 +14,7 @@ namespace ThreeAmigosProduct.Services
 
         public ProductService(HttpClient client, ILogger<ProductService> logger)
         {
-            client.BaseAddress = new Uri("https://manageproductsapi.azurewebsites.net/api/");
+            client.BaseAddress = new Uri("https://manage-products-api.azurewebsites.net/api/");
             client.Timeout = TimeSpan.FromSeconds(5);
             client.DefaultRequestHeaders.Add("Accept", "application/json");
             _client = client;
