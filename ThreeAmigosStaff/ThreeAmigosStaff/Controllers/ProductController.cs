@@ -62,7 +62,6 @@ namespace ThreeAmigosProduct.Controllers
             catch (HttpRequestException)
             {
                 _logger.LogWarning("Exception Occured using Product service (Price History).");
-                //staffs = Array.Empty<StaffDto>();
             }
 
             return View(products);
@@ -84,7 +83,7 @@ namespace ThreeAmigosProduct.Controllers
             }
             catch (HttpRequestException)
             {
-                _logger.LogWarning("Exception Occured using product service.");
+                _logger.LogWarning("Exception Occured using GET-REVIEWS: product service.");
                 reviews = Array.Empty<ReviewDto>();
             }
             return View(reviews.ToList());
@@ -143,7 +142,6 @@ namespace ThreeAmigosProduct.Controllers
             return View(product);
         }
 
-  
         // GET: Product/Edit/5
         public async Task<IActionResult> Edit(int id)
         {
@@ -208,40 +206,6 @@ namespace ThreeAmigosProduct.Controllers
             }
             return View(product);
         }
-
-
-        //// POST: Product/Edit/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Resell(int id, [Bind("Id,Name,Price,Stock")] Product product)
-        //{
-        //    if (id != product.Id)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _context.Update(product);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!ProductExists(product.Id))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(product);
-        //}
 
         // GET: api/Product/5
         public async Task<IActionResult> Delete(int id)

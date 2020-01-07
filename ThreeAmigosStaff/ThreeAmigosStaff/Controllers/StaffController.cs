@@ -59,7 +59,6 @@ namespace ThreeAmigosStaff.Controllers
             catch (HttpRequestException)
             {
                 _logger.LogWarning("Exception Occured using staff service.");
-                //staffs = Array.Empty<StaffDto>();
             }
             return View(staffs);
         }

@@ -37,7 +37,7 @@ namespace ThreeAmigosOrder.Controllers
             }
             catch (HttpRequestException)
             {
-                _logger.LogWarning("Exception Occured using order service.");
+                _logger.LogWarning("Exception Occured using HOME: order service.");
                 orders = Array.Empty<OrderDto>();
             }
 
@@ -59,29 +59,10 @@ namespace ThreeAmigosOrder.Controllers
             }
             catch (HttpRequestException)
             {
-                _logger.LogWarning("Exception Occured using order service.");
-                //orders = Array.Empty<OrderDto>();
+                _logger.LogWarning("Exception Occured using GET-DETAILS: order service.");
             }
             return View(orders);
         }
-
-        //// GET: Order/Details/5
-        //public async Task<IActionResult> Details(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var order = await _context.Order
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (order == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(order);
-        //}
 
         // GET: Order/Create
         public IActionResult Create()
@@ -113,26 +94,26 @@ namespace ThreeAmigosOrder.Controllers
             }
             catch (HttpRequestException)
             {
-                _logger.LogWarning("Exception Occured using staff service.");
+                _logger.LogWarning("Exception Occured using POST: staff service.");
             }
             return View(order);
         }
 
-        // GET: Order/Edit/5
-        //public async Task<IActionResult> Edit(int id)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return NotFound();
-        //    }
+        //GET: Order/Edit/5
+        public async Task<IActionResult> Edit(int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return NotFound();
+            }
 
-        //    var order = await _orderService.EditOrderDetailsAsync(id);
-        //    if (order == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return View(order);
-        //}
+            var order = await _orderService.EditOrderDetailsAsync(id);
+            if (order == null)
+            {
+                return NotFound();
+            }
+            return View(order);
+        }
 
         ////// POST: Order/Edit/5
         //[HttpPost, ActionName("Delete")]

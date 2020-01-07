@@ -36,7 +36,6 @@ namespace ThreeAmigosCustomer.Controllers
             }
             catch (HttpRequestException)
             {
-                _logger.LogWarning("Exception Occured using customer service.");
                 customers = Array.Empty<CustomerDto>();
             }
 
@@ -59,7 +58,6 @@ namespace ThreeAmigosCustomer.Controllers
             catch (HttpRequestException)
             {
                 _logger.LogWarning("Exception Occured using staff service.");
-                //customers = Array.Empty<StaffDto>();
             }
 
             return View(customers);
@@ -165,7 +163,7 @@ namespace ThreeAmigosCustomer.Controllers
             }
             catch (HttpRequestException)
             {
-                _logger.LogWarning("Exception Occured using customer service.");
+                _logger.LogWarning("Exception Occured using GET-Delete: in customer service.");
             }
 
             return View(customer);
