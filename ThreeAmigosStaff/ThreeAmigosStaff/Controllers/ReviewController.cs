@@ -13,7 +13,6 @@ namespace ThreeAmigosReview.Controllers
 {
     public class ReviewController : Controller
     {
-        //private readonly MvcReviewContext _context;
         private readonly ILogger _logger;
         private readonly IReviewService _reviewService;
 
