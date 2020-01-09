@@ -13,6 +13,8 @@ namespace ThreeAmigosOrder.Services
 
         Task<OrderDto> PostOrderAsync(OrderDto OrderDto);
 
+        bool GetOrderExists(int Id);
+
         Task<OrderDto> PutOrderAsync(OrderDto OrderDto);
 
         Task<OrderDto> EditOrderDetailsAsync(int Id);

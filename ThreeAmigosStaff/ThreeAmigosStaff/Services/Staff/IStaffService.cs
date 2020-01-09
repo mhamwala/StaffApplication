@@ -12,6 +12,10 @@ namespace ThreeAmigosStaff.Services
 
         Task<StaffDto> PostStaffAsync(StaffDto staffDto);
 
+        bool GetStaffExists(int Id);
+
+        Task<StaffDto> PutStaffAsync(StaffDto staffDto);
+
         Task<StaffDto> EditStaffDetailsAsync(int Id);
 
         Task<StaffDto> GetDeleteStaffAsync(int Id);

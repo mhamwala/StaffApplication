@@ -34,6 +34,12 @@ namespace ThreeAmigosStaff.Services
             return Task.FromResult(staff);
         }
 
+        Task<StaffDto> IStaffService.PutStaffAsync(StaffDto staff)
+        {
+            _staff.Add(staff);
+            return Task.FromResult(staff);
+        }
+
         Task<StaffDto> IStaffService.EditStaffDetailsAsync(int Id)
         {
             var staff = _staff.FirstOrDefault(r => r.Id == Id);
@@ -50,6 +56,11 @@ namespace ThreeAmigosStaff.Services
         {
             var staff = _staff.FirstOrDefault(r => r.Id == Id);
             return Task.FromResult(staff);
+        }
+
+        public bool GetStaffExists(int Id)
+        {
+            return true;
         }
     }
 }

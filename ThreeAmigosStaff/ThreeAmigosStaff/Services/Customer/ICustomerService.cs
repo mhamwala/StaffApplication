@@ -12,6 +12,10 @@ namespace ThreeAmigosCustomer.Services
 
         Task<CustomerDto> GetCustomerDetailsAsync(int Id);
 
+        bool GetCustomerExists(int Id);
+
+        Task<CustomerDto> PutCustomerAsync(CustomerDto CustomerDto);
+
         Task<CustomerDto> PostCustomerAsync(CustomerDto CustomerDto);
 
         Task<CustomerDto> EditCustomerDetailsAsync(int Id);

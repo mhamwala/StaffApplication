@@ -14,7 +14,7 @@ namespace ThreeAmigosCustomer.Services
 
         public CustomerService(HttpClient client, ILogger<CustomerService> logger)
         {
-            client.BaseAddress = new System.Uri("https://managecustomersapi.azurewebsites.net/api/");
+            client.BaseAddress = new System.Uri("http://localhost:8083/api/");
             client.Timeout = TimeSpan.FromSeconds(5);
             client.DefaultRequestHeaders.Add("Accept", "application/json");
             _client = client;
@@ -76,6 +76,18 @@ namespace ThreeAmigosCustomer.Services
             return customer;
         }
 
+        //Put New Order Member
+        public async Task<CustomerDto> PutCustomerAsync(CustomerDto customer)
+        {
+            var response = await _client.PutAsJsonAsync("customeraccounts/" + customer.Id, customer);
+            if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                return null;
+            }
+            response.EnsureSuccessStatusCode();
+            return await response.Content.ReadAsAsync<CustomerDto>();
+        }
+
         //Edit Individual Customer Details
         public async Task<CustomerDto> EditCustomerDetailsAsync(int Id)
         {
@@ -111,8 +123,20 @@ namespace ThreeAmigosCustomer.Services
                 return null;
             }
             response.EnsureSuccessStatusCode();
-            var order = await response.Content.ReadAsAsync<CustomerDto>();
-            return order;
+            var customer = await response.Content.ReadAsAsync<CustomerDto>();
+            return customer;
+        }
+
+        //Get Customer Exists
+        public bool GetCustomerExists(int Id)
+        {
+            var response = _client.GetAsync("customeraccounts/" + Id);
+            if (response.Equals(null))
+            {
+                _logger.LogError("Customer does not exist in the database");
+                return false;
+            }
+            return true;
         }
     }
 }

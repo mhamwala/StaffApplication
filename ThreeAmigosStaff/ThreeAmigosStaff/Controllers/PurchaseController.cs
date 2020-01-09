@@ -153,40 +153,29 @@ namespace ThreeAmigosStaff.Controllers
         //    return View(purchase);
         //}
 
-        //// POST: Purchase/Edit/5
-        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int id, [Bind("Id,ProductName,UserId,UserName,Quantity,Price,Date,Accepted")] Purchase purchase)
-        //{
-        //    if (id != purchase.Id)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _context.Update(purchase);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!PurchaseExists(purchase.Id))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(purchase);
-        //}
+        // PUT: Purchase/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, PurchaseDto purchase)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                var reponse = await _purchaseService.PutPurchaseAsync(purchase);
+                if (!PurchaseExists(id))
+                {
+                    return NotFound();
+                }
+            }
+            catch (HttpRequestException)
+            {
+                _logger.LogWarning("Exception Occured using Purchase EDIT PUT REquest.");
+            }
+            return RedirectToAction(nameof(Index));
+        }
 
         //// POST: Purchase/Accept/5
         //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -260,10 +249,9 @@ namespace ThreeAmigosStaff.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-
-        //private bool PurchaseExists(int id)
-        //{
-        //    return _context.Purchase.Any(e => e.Id == id);
-        //}
+        private bool PurchaseExists(int id)
+        {
+            return _purchaseService.GetPurchaseExists(id);
+        }
     }
 }

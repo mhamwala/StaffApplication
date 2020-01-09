@@ -11,6 +11,10 @@ namespace ThreeAmigosPurchase.Services
 
         Task<PurchaseDto> GetPurchaseDetailsAsync(int Id);
 
+        bool GetPurchaseExists(int Id);
+
+        Task<PurchaseDto> PutPurchaseAsync(PurchaseDto purchaseDto);
+
         Task<PurchaseDto> PostPurchaseAsync(PurchaseDto PurchaseDto);
 
         Task<PurchaseDto> EditPurchaseDetailsAsync(int Id);

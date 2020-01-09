@@ -76,6 +76,18 @@ namespace ThreeAmigosProduct.Services
             return product;
         }
 
+        //Put New Product Member
+        public async Task<ProductDto> PutProductAsync(ProductDto product)
+        {
+            var response = await _client.PutAsJsonAsync("products/" + product.Id, product);
+            if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                return null;
+            }
+            response.EnsureSuccessStatusCode();
+            return await response.Content.ReadAsAsync<ProductDto>();
+        }
+
         //Edit Individual Product Details
         public async Task<ProductDto> EditProductDetailsAsync(int Id)
         {
@@ -113,6 +125,18 @@ namespace ThreeAmigosProduct.Services
             response.EnsureSuccessStatusCode();
             var product = await response.Content.ReadAsAsync<ProductDto>();
             return product;
+        }
+
+        //Get Product Exists
+        public bool GetProductExists(int Id)
+        {
+            var response = _client.GetAsync("products/" + Id);
+            if (response.Equals(null))
+            {
+                _logger.LogError("Product does not exist in the database");
+                return false;
+            }
+            return true;
         }
     }
 }

@@ -115,33 +115,10 @@ namespace ThreeAmigosOrder.Controllers
             return View(order);
         }
 
-        ////// POST: Order/Edit/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int id, [Bind("Id,CustomerID,OrderID,Total,Quantity,ShippingAddress,OrderDate,ShippingDate")] OrderDto order)
-        //{
-        //    if (id != order.Id)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    await _orderService.PutOrderAsync(order);
-
-        //    //try
-        //    //{
-        //    //    await _context.SaveChangesAsync();
-        //    //}
-        //    //catch
-        //    //{
-
-        //    //}
-
-        //    return RedirectToAction(nameof(Index));
-        //}
-
-        // POST: Order/Create
-        [HttpPut]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CustomerID,OrderID,Total,Quantity,ShippingAddress,OrderDate,ShippingDate")] OrderDto order)
+        // PUT: Order/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, OrderDto order)
         {
             if (!ModelState.IsValid)
             {
@@ -149,13 +126,17 @@ namespace ThreeAmigosOrder.Controllers
             }
             try
             {
-                await _orderService.PutOrderAsync(order);
+                var reponse = await _orderService.PutOrderAsync(order);
+                if (!OrderExists(id))
+                {
+                    return NotFound();
+                }
             }
             catch (HttpRequestException)
             {
-                _logger.LogWarning("Exception Occured using staff EDIT PUT REquest.");
+                _logger.LogWarning("Exception Occured using Order EDIT PUT REquest.");
             }
-            return NoContent();
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: api/Order/5
@@ -195,9 +176,9 @@ namespace ThreeAmigosOrder.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        //private bool OrderExists(int id)
-        //{
-        //    return _context.Order.Any(e => e.Id == id);
-        //}
+        private bool OrderExists(int id)
+        {
+            return _orderService.GetOrderExists(id);
+        }
     }
 }
