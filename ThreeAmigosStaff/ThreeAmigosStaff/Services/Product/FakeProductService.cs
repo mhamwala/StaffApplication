@@ -32,6 +32,12 @@ namespace ThreeAmigosProduct.Services
             return Task.FromResult(product);
         }
 
+        Task<ProductDto> IProductService.PutProductAsync(ProductDto product)
+        {
+            _product.Add(product);
+            return Task.FromResult(product);
+        }
+
         Task<ProductDto> IProductService.EditProductDetailsAsync(int Id)
         {
             var product = _product.FirstOrDefault(r => r.Id == Id);
@@ -53,6 +59,11 @@ namespace ThreeAmigosProduct.Services
         {
             var product = _product.FirstOrDefault(r => r.Id == Id);
             return Task.FromResult(product);
+        }
+
+        public bool GetProductExists(int Id)
+        {
+            return true;
         }
     }
 }

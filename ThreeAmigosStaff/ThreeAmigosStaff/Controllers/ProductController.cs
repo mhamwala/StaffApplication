@@ -158,38 +158,29 @@ namespace ThreeAmigosProduct.Controllers
             return View(product);
         }
 
-        //// POST: Product/Edit/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Stock")] Product product)
-        //{
-        //    if (id != product.Id)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _context.Update(product);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!ProductExists(product.Id))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(product);
-        //}
+        // PUT: Product/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, ProductDto product)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                var reponse = await _productService.PutProductAsync(product);
+                if (!ProductExists(id))
+                {
+                    return NotFound();
+                }
+            }
+            catch (HttpRequestException)
+            {
+                _logger.LogWarning("Exception Occured using Product EDIT PUT REquest.");
+            }
+            return RedirectToAction(nameof(Index));
+        }
 
         //// GET: Product/Resell/5
         public async Task<IActionResult> Resell(int id)
@@ -244,9 +235,9 @@ namespace ThreeAmigosProduct.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        //private bool ProductExists(int id)
-        //{
-        //    return _context.Product.Any(e => e.Id == id);
-        //}
+        private bool ProductExists(int id)
+        {
+            return _productService.GetProductExists(id);
+        }
     }
 }

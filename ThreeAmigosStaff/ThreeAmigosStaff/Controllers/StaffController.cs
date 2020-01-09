@@ -109,38 +109,29 @@ namespace ThreeAmigosStaff.Controllers
             return View(staff);
         }
 
-        //// POST: Staff/Edit/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Email,Password,Address,PostCode,Telephone,IsManagement")] StaffDto staff)
-        //{
-        //    if (id != staff.Id)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _context.Update(staff);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!StaffExists(staff.Id))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(staff);
-        //
+        // PUT: Staff/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, StaffDto staff)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                var reponse = await _staffService.PutStaffAsync(staff);
+                if (!StaffExists(id))
+                {
+                    return NotFound();
+                }
+            }
+            catch (HttpRequestException)
+            {
+                _logger.LogWarning("Exception Occured using Staff EDIT PUT REquest.");
+            }
+            return RedirectToAction(nameof(Index));
+        }
 
         // GET: api/staff/5
         public async Task<IActionResult> Delete(int id)
@@ -179,9 +170,9 @@ namespace ThreeAmigosStaff.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        //private bool StaffExists(int id)
-        //{
-        //    return _context.Staff.Any(e => e.Id == id);
-        //}
+        private bool StaffExists(int id)
+        {
+            return _staffService.GetStaffExists(id);
+        }
     }
 }

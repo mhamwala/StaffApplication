@@ -12,6 +12,10 @@ namespace ThreeAmigosProduct.Services
 
         Task<ProductDto> GetProductDetailsAsync(int Id);
 
+        bool GetProductExists(int Id);
+
+        Task<ProductDto> PutProductAsync(ProductDto productDto);
+
         Task<ProductDto> PostProductAsync(ProductDto ProductDto);
 
         Task<ProductDto> EditProductDetailsAsync(int Id);

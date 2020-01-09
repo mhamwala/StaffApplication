@@ -61,6 +61,18 @@ namespace ThreeAmigosStaff.Services
             return staff;
         }
 
+        //Put New Staff Member
+        public async Task<StaffDto> PutStaffAsync(StaffDto staff)
+        {
+            var response = await _client.PutAsJsonAsync("staffaccounts/" + staff.Id, staff);
+            if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                return null;
+            }
+            response.EnsureSuccessStatusCode();
+            return await response.Content.ReadAsAsync<StaffDto>();
+        }
+
         //Edit Individual Staff Details
         public async Task<StaffDto> EditStaffDetailsAsync(int Id)
         {
@@ -98,6 +110,18 @@ namespace ThreeAmigosStaff.Services
             response.EnsureSuccessStatusCode();
             var staff = await response.Content.ReadAsAsync<StaffDto>();
             return staff;
+        }
+
+        //Get Review Exists
+        public bool GetStaffExists(int Id)
+        {
+            var response = _client.GetAsync("staffaccounts/" + Id);
+            if (response.Equals(null))
+            {
+                _logger.LogError("Staff does not exist in the database");
+                return false;
+            }
+            return true;
         }
     }
 }

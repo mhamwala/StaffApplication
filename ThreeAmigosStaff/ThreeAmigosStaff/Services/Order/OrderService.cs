@@ -78,7 +78,7 @@ namespace ThreeAmigosOrder.Services
         //Put New Order Member
         public async Task<OrderDto> PutOrderAsync(OrderDto order)
         {
-            var response = await _client.PutAsJsonAsync("ordersservice/edit", order.Id);
+            var response = await _client.PutAsJsonAsync("ordersservice/" + order.Id, order);
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 return null;
@@ -124,6 +124,18 @@ namespace ThreeAmigosOrder.Services
             response.EnsureSuccessStatusCode();
             var order = await response.Content.ReadAsAsync<OrderDto>();
             return order;
+        }
+
+        //Get Order Exists
+        public bool GetOrderExists(int Id)
+        {
+            var response = _client.GetAsync("ordersservice/" + Id);
+            if (response.Equals(null))
+            {
+                _logger.LogError("Order does not exist in the database");
+                return false;
+            }
+            return true;
         }
     }
 }

@@ -32,6 +32,12 @@ namespace ThreeAmigosPurchase.Services
             return Task.FromResult(purchase);
         }
 
+        Task<PurchaseDto> IPurchaseService.PutPurchaseAsync(PurchaseDto purchase)
+        {
+            _purchase.Add(purchase);
+            return Task.FromResult(purchase);
+        }
+
         Task<PurchaseDto> IPurchaseService.EditPurchaseDetailsAsync(int Id)
         {
             var purchase = _purchase.FirstOrDefault(r => r.Id == Id);
@@ -53,6 +59,11 @@ namespace ThreeAmigosPurchase.Services
         {
             var purchase = _purchase.FirstOrDefault(r => r.Id == Id);
             return Task.FromResult(purchase);
+        }
+
+        public bool GetPurchaseExists(int Id)
+        {
+            return true;
         }
     }
 }

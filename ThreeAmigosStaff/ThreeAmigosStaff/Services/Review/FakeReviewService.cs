@@ -35,6 +35,12 @@ namespace ThreeAmigosReview.Services
             return Task.FromResult(review);
         }
 
+        Task<ReviewDto> IReviewService.PutReviewAsync(ReviewDto review)
+        {
+            _review.Add(review);
+            return Task.FromResult(review);
+        }
+
         Task<ReviewDto> IReviewService.EditReviewDetailsAsync(int Id)
         {
             var review = _review.FirstOrDefault(r => r.Id == Id);
@@ -61,6 +67,11 @@ namespace ThreeAmigosReview.Services
         {
             var purchase = _review.FirstOrDefault(r => r.Id == Id);
             return Task.FromResult(purchase);
+        }
+
+        public bool GetReviewExists(int Id)
+        {
+            return true;
         }
     }
 }

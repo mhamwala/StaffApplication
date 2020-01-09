@@ -32,6 +32,12 @@ namespace ThreeAmigosCustomer.Services
             return Task.FromResult(customer);
         }
 
+        Task<CustomerDto> ICustomerService.PutCustomerAsync(CustomerDto customer)
+        {
+            _customer.Add(customer);
+            return Task.FromResult(customer);
+        }
+
         Task<CustomerDto> ICustomerService.EditCustomerDetailsAsync(int Id)
         {
             var customer = _customer.FirstOrDefault(r => r.Id == Id);
@@ -59,6 +65,11 @@ namespace ThreeAmigosCustomer.Services
         {
             var customer = _customer.FirstOrDefault(r => r.Id == Id);
             return Task.FromResult(customer);
+        }
+
+        public bool GetCustomerExists(int Id)
+        {
+            return true;
         }
     }
 }

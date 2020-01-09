@@ -14,6 +14,10 @@ namespace ThreeAmigosReview.Services
 
         Task<IEnumerable<ReviewDto>> GetReviewDetailsListAsync(int Id);
 
+        bool GetReviewExists(int Id);
+
+        Task<ReviewDto> PutReviewAsync(ReviewDto reviewDto);
+
         Task<ReviewDto> PostReviewAsync(ReviewDto ReviewDto);
 
         Task<ReviewDto> EditReviewDetailsAsync(int Id);

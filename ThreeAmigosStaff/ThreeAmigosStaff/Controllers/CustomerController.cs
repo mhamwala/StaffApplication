@@ -113,40 +113,29 @@ namespace ThreeAmigosCustomer.Controllers
             return View(customer);
         }
 
-        //// POST: Customer/Edit/5
-        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Email,Password,Address,PostCode,Telephone")] Customer customer)
-        //{
-        //    if (id != customer.Id)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _context.Update(customer);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!CustomerExists(customer.Id))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(customer);
-        //}
+        // PUT: Customer/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, CustomerDto customer)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                var reponse = await _customerService.PutCustomerAsync(customer);
+                if (!CustomerExists(id))
+                {
+                    return NotFound();
+                }
+            }
+            catch (HttpRequestException)
+            {
+                _logger.LogWarning("Exception Occured using staff EDIT PUT REquest.");
+            }
+            return RedirectToAction(nameof(Index));
+        }
 
         // GET: api/Customer/5
         public async Task<IActionResult> Delete(int id)
@@ -185,9 +174,9 @@ namespace ThreeAmigosCustomer.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        //private bool CustomerExists(int id)
-        //{
-        //    return _context.Customer.Any(e => e.Id == id);
-        //}
+        private bool CustomerExists(int id)
+        {
+            return _customerService.GetCustomerExists(id);
+        }
     }
 }

@@ -59,5 +59,10 @@ namespace ThreeAmigosOrder.Services
             var order = _order.FirstOrDefault(r => r.Id == Id);
             return Task.FromResult(order);
         }
+
+        public bool GetOrderExists(int Id)
+        {
+            return true;
+        }
     }
 }
