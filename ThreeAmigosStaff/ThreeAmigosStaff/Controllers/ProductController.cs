@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using ThreeAmigosProduct.Services;
-using ThreeAmigosReview.Services;
 
 namespace ThreeAmigosProduct.Controllers
 {
@@ -14,14 +13,12 @@ namespace ThreeAmigosProduct.Controllers
     {
         private readonly ILogger _logger;
         private readonly IProductService _productService;
-        private readonly IReviewService _reviewService;
 
         public ProductController(ILogger<ProductController> logger,
-             IProductService productService, IReviewService reviewService)
+             IProductService productService)
         {
             _logger = logger;
             _productService = productService;
-            _reviewService = reviewService;
         }
 
         // GET: Product
@@ -54,10 +51,10 @@ namespace ThreeAmigosProduct.Controllers
                 return BadRequest(ModelState);
             }
 
-            ProductDto products = null;
+            IEnumerable<ProductHistoryDto> products = null;
             try
             {
-                products = await _productService.GetProductDetailsAsync(id);
+                products = await _productService.GetPriceHistoryAsync(id);
             }
             catch (HttpRequestException)
             {
@@ -67,9 +64,30 @@ namespace ThreeAmigosProduct.Controllers
             return View(products);
         }
 
-        // GET: Product/Reviews/5
-        // when Review id equals ProductId
-        public async Task<IActionResult> Review(int id)
+        // GET: Stock
+        public async Task<IActionResult> Stock(int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            ProductDto stock = null;
+            try
+            {
+                stock = await _productService.GetProductDetailsAsync(id);
+            }
+            catch (HttpRequestException)
+            {
+                _logger.LogWarning("Exception Occured using product service.");
+                //products = Array.Empty<ProductDto>();
+            }
+
+            return View(stock);
+        }
+
+        // GET: Reviews
+        public async Task<IActionResult> Reviews(int id)
         {
             if (!ModelState.IsValid)
             {
@@ -79,36 +97,78 @@ namespace ThreeAmigosProduct.Controllers
             IEnumerable<ReviewDto> reviews = null;
             try
             {
-                reviews = await _reviewService.GetReviewDetailsListAsync(id);
+                reviews = await _productService.GetReviewsAsync(id);
             }
             catch (HttpRequestException)
             {
-                _logger.LogWarning("Exception Occured using GET-REVIEWS: product service.");
-                reviews = Array.Empty<ReviewDto>();
+                _logger.LogWarning("Exception Occured using Review.");
             }
-            return View(reviews.ToList());
+
+            return View(reviews);
         }
 
-        // GET: Stock
-        public async Task<IActionResult> Stock()
+        // GET: Reviews/Edit/5
+        public async Task<IActionResult> EditReview(int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return NotFound();
+            }
+
+            var reviews = await _productService.EditReviewDetailsAsync(id);
+            if (reviews == null)
+            {
+                return NotFound();
+            }
+            return View(reviews);
+        }
+
+        // PUT: Edit/Reviews
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditReview(int id, ReviewDto review)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
-            IEnumerable<ProductDto> products = null;
             try
             {
-                products = await _productService.GetProductAsync();
+                var reponse = await _productService.PutReviewAsync(review);
+                if (!ReviewsExists(id))
+                {
+                    return NotFound();
+                }
             }
             catch (HttpRequestException)
             {
-                _logger.LogWarning("Exception Occured using product service.");
-                products = Array.Empty<ProductDto>();
+                _logger.LogWarning("Exception Occured using Review EDIT PUT REquest.");
             }
+            return RedirectToAction(nameof(Index));
+        }
 
-            return View(products.ToList());
+        // PUT: Product/Update/
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Stock(int id, ProductDto product)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                var reponse = await _productService.PutProductAsync(product);
+                if (!ProductExists(id))
+                {
+                    return NotFound();
+                }
+            }
+            catch (HttpRequestException)
+            {
+                _logger.LogWarning("Exception Occured using Product EDIT PUT REquest.");
+            }
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Product/Create
@@ -182,7 +242,7 @@ namespace ThreeAmigosProduct.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        //// GET: Product/Resell/5
+        // GET: Product/Resell/5
         public async Task<IActionResult> Resell(int id)
         {
             if (!ModelState.IsValid)
@@ -238,6 +298,11 @@ namespace ThreeAmigosProduct.Controllers
         private bool ProductExists(int id)
         {
             return _productService.GetProductExists(id);
+        }
+
+        private bool ReviewsExists(int id)
+        {
+            return _productService.GetReviewsExists(id);
         }
     }
 }

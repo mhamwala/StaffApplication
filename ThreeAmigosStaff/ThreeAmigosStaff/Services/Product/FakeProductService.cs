@@ -15,6 +15,16 @@ namespace ThreeAmigosProduct.Services
             new ProductDto { Id = 24, Name = "Wallet", Price = 1.99, Stock = 30 }
         };
 
+        public List<ProductHistoryDto> _productHistory = new List<ProductHistoryDto>
+        {
+            new ProductHistoryDto { Id = 21, ProductId = 2, Price = 1}
+        };
+
+        public List<ReviewDto> _reviews = new List<ReviewDto>
+        {
+            new ReviewDto { Id = 3, CustomerID = 13, ProductID = 34, Rating = 1, Comments = "not to good", Visible = false }
+        };
+
         public Task<IEnumerable<ProductDto>> GetProductAsync()
         {
             return Task.FromResult(_product.AsEnumerable());
@@ -38,10 +48,22 @@ namespace ThreeAmigosProduct.Services
             return Task.FromResult(product);
         }
 
+        Task<ReviewDto> IProductService.PutReviewAsync(ReviewDto review)
+        {
+            _reviews.Add(review);
+            return Task.FromResult(review);
+        }
+
         Task<ProductDto> IProductService.EditProductDetailsAsync(int Id)
         {
             var product = _product.FirstOrDefault(r => r.Id == Id);
             return Task.FromResult(product);
+        }
+
+        Task<ReviewDto> IProductService.EditReviewDetailsAsync(int Id)
+        {
+            var review = _reviews.FirstOrDefault(r => r.Id == Id);
+            return Task.FromResult(review);
         }
 
         public Task<ProductDto> GetDeleteProductAsync(int Id)
@@ -64,6 +86,21 @@ namespace ThreeAmigosProduct.Services
         public bool GetProductExists(int Id)
         {
             return true;
+        }
+
+        public bool GetReviewsExists(int Id)
+        {
+            return true;
+        }
+
+        public Task<IEnumerable<ProductHistoryDto>> GetPriceHistoryAsync(int Id)
+        {
+            return Task.FromResult(_productHistory.AsEnumerable());
+        }
+
+        public Task<IEnumerable<ReviewDto>> GetReviewsAsync(int Id)
+        {
+            return Task.FromResult(_reviews.AsEnumerable());
         }
     }
 }

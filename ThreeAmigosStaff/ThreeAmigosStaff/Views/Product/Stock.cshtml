@@ -1,36 +1,35 @@
-@model IEnumerable<ThreeAmigosProduct.Services.ProductDto>
+@model ThreeAmigosProduct.Services.ProductDto
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Stock";
 }
 
-<h1>Viewing Stock for all products</h1>
+<h1>Add Stock Price for @Html.DisplayFor(model => model.Name)</h1>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Stock)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Stock)
-            </td>
-            <td>
-                <a asp-action="Reviews" asp-route-id="@item.Name"><input type=button value="Stock up"></a>
-            </td>
-        </tr>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Stock">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="Name" />
+            <input type="hidden" asp-for="Price" />
+            <div class="form-group">
+                <label asp-for="Stock" class="control-label"></label>
+                <input asp-for="Stock" class="form-control" />
+                <span asp-validation-for="Stock" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Add Stock" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
-    </tbody>
-</table>
