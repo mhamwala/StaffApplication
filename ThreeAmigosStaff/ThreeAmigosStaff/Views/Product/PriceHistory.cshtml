@@ -1,23 +1,42 @@
-@model ThreeAmigosProduct.Services.ProductDto
+@model IEnumerable<ThreeAmigosProduct.Services.ProductHistoryDto>
 
 @{
     ViewData["Title"] = "Details";
 }
 
-<h1>Resell Price History For @Html.DisplayFor(model => model.Name)</h1>
+<h1>Resell Price History</h1>
 
-<div>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateChange)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateChange)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<p>
     <a asp-action="Index">Back to List</a>
-</div>
+</p>

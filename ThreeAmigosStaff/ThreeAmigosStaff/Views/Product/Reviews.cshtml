@@ -1,4 +1,4 @@
-@model IEnumerable<ThreeAmigosProduct.Services.ProductDto>
+@model IEnumerable<ThreeAmigosProduct.Services.ReviewDto>
 
 @{
     ViewData["Title"] = "Reviews";
@@ -10,7 +10,19 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                @Html.DisplayNameFor(model => model.CustomerID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rating)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Comments)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Visible)
             </th>
             <th></th>
         </tr>
@@ -19,12 +31,28 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Name)
+                @Html.DisplayFor(modelItem => item.CustomerID)
             </td>
             <td>
-                <a asp-action="Delete" asp-route-id="@item.Id"><input type=button value="Hide Review"></a>
+                @Html.DisplayFor(modelItem => item.ProductID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Rating)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Comments)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Visible)
+            </td>
+            <td>
+                <a asp-action="EditReview" asp-route-id="@item.Id"><input type=button value="Hide Review"></a>
             </td>
         </tr>
 }
     </tbody>
 </table>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

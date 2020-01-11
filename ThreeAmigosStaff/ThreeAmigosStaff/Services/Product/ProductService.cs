@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace ThreeAmigosProduct.Services
 {
@@ -47,7 +48,6 @@ namespace ThreeAmigosProduct.Services
             response.EnsureSuccessStatusCode();
             var product = await response.Content.ReadAsAsync<IEnumerable<ProductDto>>();
             return product;
-
         }
 
         //Get Individual Product Details
@@ -59,8 +59,36 @@ namespace ThreeAmigosProduct.Services
                 return null;
             }
             response.EnsureSuccessStatusCode();
-            var product = await response.Content.ReadAsAsync<ProductDto>();
-            return product;
+            var productDetails = await response.Content.ReadAsAsync<ProductDto>();
+            return productDetails;
+        }
+
+        //Get Product Price History Details
+        public async Task<IEnumerable<ProductHistoryDto>> GetPriceHistoryAsync(int Id)
+        {
+            var response = await _client.GetAsync("productsHistory/PRID/" + Id);
+            if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                _logger.LogWarning("FAIling to do stuff.");
+                return null;
+            }
+            response.EnsureSuccessStatusCode();
+            var priceHistory = await response.Content.ReadAsAsync<IEnumerable<ProductHistoryDto>>();
+            return priceHistory;  
+        }
+
+        //Get Customer Reviews
+        public async Task<IEnumerable<ReviewDto>> GetReviewsAsync(int id)
+        {
+            var response = await _client.GetAsync("reviews/PRID/" + id);
+            if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                _logger.LogWarning("FAIling to do stuff.");
+                return null;
+            }
+            response.EnsureSuccessStatusCode();
+            var reviews = await response.Content.ReadAsAsync<IEnumerable<ReviewDto>>();
+            return reviews;
         }
 
         //Post New Product Member
@@ -88,6 +116,18 @@ namespace ThreeAmigosProduct.Services
             return await response.Content.ReadAsAsync<ProductDto>();
         }
 
+        //Put New Product Member
+        public async Task<ReviewDto> PutReviewAsync(ReviewDto review)
+        {
+            var response = await _client.PutAsJsonAsync("reviews/" + review.Id, review);
+            if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                return null;
+            }
+            response.EnsureSuccessStatusCode();
+            return await response.Content.ReadAsAsync<ReviewDto>();
+        }
+
         //Edit Individual Product Details
         public async Task<ProductDto> EditProductDetailsAsync(int Id)
         {
@@ -99,6 +139,19 @@ namespace ThreeAmigosProduct.Services
             response.EnsureSuccessStatusCode();
             var product = await response.Content.ReadAsAsync<ProductDto>();
             return product;
+        }
+
+        //Edit Individual Review Details
+        public async Task<ReviewDto> EditReviewDetailsAsync(int Id)
+        {
+            var response = await _client.GetAsync("reviews/" + Id);
+            if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                return null;
+            }
+            response.EnsureSuccessStatusCode();
+            var review = await response.Content.ReadAsAsync<ReviewDto>();
+            return review;
         }
 
         //Get Edit Delete
@@ -134,6 +187,18 @@ namespace ThreeAmigosProduct.Services
             if (response.Equals(null))
             {
                 _logger.LogError("Product does not exist in the database");
+                return false;
+            }
+            return true;
+        }
+
+        //Get Reviews Exists
+        public bool GetReviewsExists(int Id)
+        {
+            var response = _client.GetAsync("reviews/" + Id);
+            if (response.Equals(null))
+            {
+                _logger.LogError("Review does not exist in the database");
                 return false;
             }
             return true;

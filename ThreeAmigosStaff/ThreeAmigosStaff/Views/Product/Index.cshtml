@@ -34,15 +34,16 @@
                 @Html.DisplayFor(modelItem => item.Stock)
             </td>
             <td>
-                <a asp-action="Review" asp-route-id="@item.Id"><input type=button value="Reviews"></a> |
+                <a asp-action="Reviews" asp-route-id="@item.Id"><input type=button value="Reviews"></a> |
                 <a asp-action="Resell" asp-route-id="@item.Id"><input type=button value="Change Price"></a> |
                 <a asp-action="PriceHistory" asp-route-id="@item.Id"><input type=button value="Price History"></a>
+                <a asp-action="Stock" asp-route-id="@item.Id"><input type=button value="Update Stock"></a>
             </td>
         </tr>
 }
     </tbody>
 </table>
 <p>
-    <a asp-action="Create"><input class="btn btn-primary mb1 bg-blue" type=button value="Add New Product"></a> -
-    <a asp-action="Stock"><input class="btn btn-primary mb1 bg-blue" type=button value="View Stock Levels"></a>
+    <a asp-action="Create"><input class="btn btn-primary mb1 bg-blue" type=button value="Add New Product"></a>
+   
 </p>
