@@ -104,7 +104,7 @@ namespace ThreeAmigosCustomer.Services
         //Get Edit Delete
         public async Task<CustomerDto> GetDeleteCustomerAsync(int Id)
         {
-            var response = await _client.DeleteAsync("customeraccounts/" + Id);
+            var response = await _client.GetAsync("customeraccounts/" + Id);
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 return null;

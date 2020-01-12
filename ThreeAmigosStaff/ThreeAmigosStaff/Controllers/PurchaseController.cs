@@ -59,29 +59,10 @@ namespace ThreeAmigosStaff.Controllers
             catch (HttpRequestException)
             {
                 _logger.LogWarning("Exception Occured using staff service.");
-                //purchases = Array.Empty<StaffDto>();
             }
 
             return View(purchases);
         }
-
-        //// GET: Purchase/Details/5
-        //public async Task<IActionResult> Details(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var purchase = await _context.Purchase
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (purchase == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(purchase);
-        //}
 
         // GET: Purchase/Create
         public IActionResult Create()
@@ -92,7 +73,7 @@ namespace ThreeAmigosStaff.Controllers
         // POST: Purchase/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ProductName,UserId,UserName,Quantity,Price,Date,Accepted,CardNumber,SortCode,SecurityNumber")] PurchaseDto purchase)
+        public async Task<IActionResult> Create([Bind("Id,productId,ProductQuantity,status")] PurchaseDto purchase)
         {
             if (!ModelState.IsValid)
             {
@@ -102,17 +83,11 @@ namespace ThreeAmigosStaff.Controllers
             {
                 await _purchaseService.PostPurchaseAsync(new PurchaseDto
                 {
-                    ProductName = purchase.ProductName,
-                    UserId = purchase.UserId,
-                    UserName = purchase.UserName,
-                    Quantity = purchase.Quantity,
-                    Price = purchase.Price,
-                    Date = purchase.Date,
-                    Accepted = purchase.Accepted,
-                    CardNumber = purchase.CardNumber,
-                    SortCode = purchase.SortCode,
-                    SecurityNumber = purchase.SecurityNumber
+                    productID = purchase.productID,
+                    ProductQuantity = purchase.ProductQuantity,
+                    status = purchase.status
                 });
+                return RedirectToAction(nameof(Index));
             }
             catch (HttpRequestException)
             {
@@ -120,22 +95,6 @@ namespace ThreeAmigosStaff.Controllers
             }
             return View(purchase);
         }
-
-        //// GET: Purchase/Edit/5
-        //public async Task<IActionResult> Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var purchase = await _context.Purchase.FindAsync(id);
-        //    if (purchase == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return View(purchase);
-        //}
 
         //// GET: Purchase/Accept/5
         //public async Task<IActionResult> Accept(int? id)
@@ -243,8 +202,6 @@ namespace ThreeAmigosStaff.Controllers
             {
                 return NotFound();
             }
-
-            await _purchaseService.GetPurchaseAsync();
 
             return RedirectToAction(nameof(Index));
         }

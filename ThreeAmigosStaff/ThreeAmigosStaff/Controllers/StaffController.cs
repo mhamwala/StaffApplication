@@ -90,6 +90,7 @@ namespace ThreeAmigosStaff.Controllers
                     Telephone = staff.Telephone,
                     IsManagement = staff.IsManagement
                 });
+                return RedirectToAction(nameof(Index));
             }
             catch (HttpRequestException)
             {

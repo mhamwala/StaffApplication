@@ -194,10 +194,11 @@ namespace ThreeAmigosProduct.Controllers
                     Price = product.Price,
                     Stock = product.Stock
                 });
+                return RedirectToAction(nameof(Index));
             }
             catch (HttpRequestException)
             {
-                _logger.LogWarning("Exception Occured using staff service.");
+                _logger.LogWarning("Exception Occured using Product service.");
             }
             return View(product);
         }

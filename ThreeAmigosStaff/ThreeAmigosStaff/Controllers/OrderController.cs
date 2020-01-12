@@ -91,6 +91,7 @@ namespace ThreeAmigosOrder.Controllers
                     OrderDate = order.OrderDate,
                     ShippingDate = order.ShippingDate
                 });
+                return RedirectToAction(nameof(Index));
             }
             catch (HttpRequestException)
             {

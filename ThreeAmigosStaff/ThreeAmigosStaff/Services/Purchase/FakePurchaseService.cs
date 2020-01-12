@@ -9,10 +9,32 @@ namespace ThreeAmigosPurchase.Services
     {
         public List<PurchaseDto> _purchase = new List<PurchaseDto>
         {
-            new PurchaseDto { Id = 21, ProductName = "Ballons", UserId = 1, UserName = "Musa Hamwala", Quantity = 23, Date = 22/04/2019, Price = 14.23, Accepted = false },
-            new PurchaseDto { Id = 22, ProductName = "Fish", UserId = 2, UserName = "James Liddle", Quantity = 14, Date = 22/04/2019, Price = 14.23, Accepted = false },
-            new PurchaseDto { Id = 23, ProductName = "Carrots", UserId = 3, UserName = "Nathan Williams", Quantity = 100, Date = 22/04/2019, Price = 14.23, Accepted = false },
-            new PurchaseDto { Id = 24, ProductName = "Chicken", UserId = 4, UserName = "Conner Basket", Quantity = 2, Date = 22/04/2019, Price = 14.23, Accepted = false }
+    new PurchaseDto {
+        Id = 1,
+        productID = 12,
+        ProductQuantity = 23.0,
+        status = true },
+    new PurchaseDto
+    {
+        Id = 2,
+        productID = 12,
+        ProductQuantity = 23.0,
+        status = true
+    },
+    new PurchaseDto
+    {
+        Id = 3,
+        productID = 12,
+        ProductQuantity = 23.0,
+        status = true
+    },
+    new PurchaseDto
+    {
+        Id = 4,
+        productID = 12,
+        ProductQuantity = 23.0,
+        status = true
+    }
         };
 
         public Task<IEnumerable<PurchaseDto>> GetPurchaseAsync()
