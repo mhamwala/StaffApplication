@@ -26,48 +26,64 @@ services:
 #      MSSQL_PID: Express
 #    ports:
 #      - "1435:1433"
-  ms-sql-server-customers:
+#  ms-sql-server-customers:
+#    image: mcr.microsoft.com/mssql/server:2017-latest-ubuntu
+#    environment:
+#      ACCEPT_EULA: "Y"
+#      SA_PASSWORD: "Pa55w0rd!!!"
+#      MSSQL_PID: Express
+#    ports:
+#      - "1433:1433"
+  ms-sql-server-third:
     image: mcr.microsoft.com/mssql/server:2017-latest-ubuntu
     environment:
       ACCEPT_EULA: "Y"
-      SA_PASSWORD: "Pa55w0rd!!!"
+      SA_PASSWORD: "Pa55w0rd"
       MSSQL_PID: Express
     ports:
       - "1433:1433"
   
   #API's
 #  manage-orders-api:
-#    build: ../../../customerorderapi/
+#    image: jimmylid12/customerorderservice
 #    environment:
 #      DBServer: "ms-sql-server-orders"
 #    ports:
 #      - "8081:80"
 #  manage-products-api:
-#    build: ../../../manageProductsAPI/
+#    image: nathanlloyd/manage-products-api
 #    environment:
 #      DBServer: "ms-sql-server-products"
 #    ports:
 #      - "8080:80"
 #  manage-staff-api:
-#    image: staffaccountserviceapi
+#    image: connorbassett/staffaccountserviceapi
 #    environment:
 #      DBServer: "ms-sql-server-staff"
 #    ports:
 #      - "8082:80"
-  manage-customers-api:
-    build: ../../../customeraccountserviceapi/CustomerAccountServiceAPI/
+#  manage-customers-api:
+#    image: connorbassett/customeraccountserviceapi
+#    environment:
+#      DBServer: "ms-sql-server-customers"
+#    ports:
+#      - "8083:80"
+  third-party-api:
+    image: nathanlloyd/third-party-orders-api
     environment:
-      DBServer: "ms-sql-server-customers"
+      DBServer: "ms-sql-server-third"
     ports:
-      - "8083:80"
+      - "8081:80"
   
   #Web APPS
   staff-app:
     build: .
     environment:
       - ManageOrdersUrl=http://manage-orders-api
+      - ManageStaffUrl=http://manage-staff-api
       - ManageProductsUrl=http://manage-products-api
       - ManageCustomersUrl=http://manage-customers-api
+      - ThirdPartyUrl=http://third-party-api
     ports:
       - 5100:80
 
