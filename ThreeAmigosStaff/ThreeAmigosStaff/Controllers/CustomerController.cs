@@ -163,13 +163,11 @@ namespace ThreeAmigosCustomer.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var order = await _customerService.DeleteCustomerAsync(id);
-            if (order == null)
+            var customer = await _customerService.DeleteCustomerAsync(id);
+            if (customer == null)
             {
                 return NotFound();
             }
-
-            await _customerService.GetCustomerAsync();
 
             return RedirectToAction(nameof(Index));
         }
