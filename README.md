@@ -94,7 +94,7 @@ If you would like to manually run and build the API's, SQL server and and test i
   5. Check the docker-compose file for the ports that are being exposed. Then go to http://localhost:5100
 
 ### Setup [Docker Compose]
-  1. Go to the `Startup.cs` file.
+  1. Go to the [Startup.cs](./ThreeAmigosStaff/ThreeAmigosStaff/Startup.cs) file.
   2. Add an `!` to the `_env.IsDevelopment` to force it to run in production mode: (example)
   ```bash
   if (!_env.IsDevelopment())
