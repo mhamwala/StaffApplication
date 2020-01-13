@@ -55,10 +55,15 @@ You will need the following tools:
 This is a front end application that uses serveral API's which are deployed to azure and exposed on these URL's:
 
 - [Third Party Orders API](https://third-party-orders-api.azurewebsites.net/api/orders)
+  - [Third Party Service Code](./ThreeAmigosStaff/ThreeAmigosStaff/Services/Purchase/PurchaseService.cs)
 - [Manage Products API](https://manage-products-api.azurewebsites.net/api/products)
+  - [Manage Products Service Code](./ThreeAmigosStaff/ThreeAmigosStaff/Services/Product/ProductService.cs)
 - [Customer Accounts API](https://customeraccountapi.azurewebsites.net/api/customeraccounts)
+  - [Customer Accounts Service Code](./ThreeAmigosStaff/ThreeAmigosStaff/Services/Customer/CustomerService.cs)
 - [Staff Accounts API](https://staffaccountapi.azurewebsites.net/api/staffaccounts)
+  - [Staff Accounts Service Code](./ThreeAmigosStaff/ThreeAmigosStaff/Services/Staff/StaffService.cs)
 - [Customer Orders API](https://customerorderapi.azurewebsites.net/api/ordersservice)
+  - [Customer Orders Service Code](./ThreeAmigosStaff/ThreeAmigosStaff/Services/Order/OrderService.cs)
 
 ### Setup [Development Mode]
 Follow these steps to get your development environment setup with live API's:
