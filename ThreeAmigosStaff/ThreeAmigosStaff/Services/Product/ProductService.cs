@@ -12,6 +12,7 @@ namespace ThreeAmigosProduct.Services
     {
         private readonly HttpClient _client;
         private readonly ILogger _logger;
+        private productsContext dbContext;
 
         public ProductService(HttpClient client, ILogger<ProductService> logger)
         {
@@ -20,6 +21,11 @@ namespace ThreeAmigosProduct.Services
             client.DefaultRequestHeaders.Add("Accept", "application/json");
             _client = client;
             _logger = logger;
+        }
+
+        public ProductService(productsContext dbContext)
+        {
+            this.dbContext = dbContext;
         }
 
         //Get all Product
