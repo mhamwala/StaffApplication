@@ -22,10 +22,10 @@ namespace ThreeAmigosProduct.Controllers
             _productService = productService;
         }
 
-        public ProductController(productsContext dbContext)
-        {
-            this.dbContext = dbContext;
-        }
+        //public ProductController(productsContext dbContext)
+        //{
+        //    this.dbContext = dbContext;
+        //}
 
         // GET: Product
         public async Task<IActionResult> Index()
