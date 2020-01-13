@@ -60,7 +60,8 @@
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id"><input type=button value="Edit"></a> |
                 <a asp-action="Details" asp-route-id="@item.Id"><input type=button value="Details"></a> |
-                <a asp-action="" asp-route-id="@item.Id"><input type=button value="Send Invoice"></a>
+                <a asp-action="" asp-route-id="@item.Id"><input type=button value="Send Invoice"></a> |
+                <a asp-action="Delete" asp-route-id="@item.Id"><input type=button value="Cancel"></a>
             </td>
         </tr>
 }
