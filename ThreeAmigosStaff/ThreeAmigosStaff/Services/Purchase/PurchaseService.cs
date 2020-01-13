@@ -14,7 +14,7 @@ namespace ThreeAmigosPurchase.Services
 
         public PurchaseService(HttpClient client, ILogger<PurchaseDto> logger)
         {
-            client.BaseAddress = new System.Uri("https://third-party-orders-api.azurewebsites.net/api/");
+            client.BaseAddress = new System.Uri("https://third-party-orders-api01.azurewebsites.net/api/");
             client.Timeout = TimeSpan.FromSeconds(5);
             client.DefaultRequestHeaders.Add("Accept", "application/json");
             _client = client;
