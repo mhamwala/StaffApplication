@@ -4,11 +4,8 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Customer Orders</h1>
+<h1>Viewing Customer Orders</h1>
 
-<p>
-    <a asp-action="Create">New Order</a>
-</p>
 <table class="table">
     <thead>
         <tr>
@@ -63,7 +60,7 @@
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id"><input type=button value="Edit"></a> |
                 <a asp-action="Details" asp-route-id="@item.Id"><input type=button value="Details"></a> |
-                <a asp-action="Delete" asp-route-id="@item.Id"><input type=button value="Remove"></a>
+                <a asp-action="" asp-route-id="@item.Id"><input type=button value="Send Invoice"></a>
             </td>
         </tr>
 }
