@@ -1,22 +1,22 @@
-﻿using ThreeAmigosCustomer.Services;
+﻿using ThreeAmigosProduct.Services;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace CustomerApiUnitTests
+namespace UnitTests.Products
 {
     public static class FakeDbContext
     {
-        public static CustomerContext GetCustomerMockDb(string dbName)
+        public static productsContext getProductMockDb(string dbName)
         {
             // Create options for DbContext instance
-            var options = new DbContextOptionsBuilder<CustomerContext>()
-                .UseSqlite("Data Source=Database.db")
+            var options = new DbContextOptionsBuilder<productsContext>()
+                .UseInMemoryDatabase(databaseName: dbName)
                 .Options;
 
             // Create instance of DbContext
-            var dbContext = new CustomerContext(options);
+            var dbContext = new productsContext(options);
 
             // Add entities in memory
             dbContext.Seed();

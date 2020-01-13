@@ -13,12 +13,18 @@ namespace ThreeAmigosProduct.Controllers
     {
         private readonly ILogger _logger;
         private readonly IProductService _productService;
+        private productsContext dbContext;
 
         public ProductController(ILogger<ProductController> logger,
              IProductService productService)
         {
             _logger = logger;
             _productService = productService;
+        }
+
+        public ProductController(productsContext dbContext)
+        {
+            this.dbContext = dbContext;
         }
 
         // GET: Product
