@@ -34,7 +34,7 @@ services:
 #      MSSQL_PID: Express
 #    ports:
 #      - "1433:1433"
-  ms-sql-server-third:
+  ms-sql-serverithird:
     image: mcr.microsoft.com/mssql/server:2017-latest-ubuntu
     environment:
       ACCEPT_EULA: "Y"
@@ -68,7 +68,7 @@ services:
 #      DBServer: "ms-sql-server-customers"
 #    ports:
 #      - "8083:80"
-  third-party-api:
+  third-party-orders-api:
     image: nathanlloyd/third-party-orders-api
     environment:
       DBServer: "ms-sql-server-third"
@@ -83,7 +83,7 @@ services:
       - ManageStaffUrl=http://manage-staff-api
       - ManageProductsUrl=http://manage-products-api
       - ManageCustomersUrl=http://manage-customers-api
-      - ThirdPartyUrl=http://third-party-api
+      - ThirdPartyUrl=http://third-party-orders-api
     ports:
       - 5100:80
 
