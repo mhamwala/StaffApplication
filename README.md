@@ -53,6 +53,13 @@ You will need the following tools:
 * [.NET Core SDK 2.^](https://www.microsoft.com/net/download/dotnet-core/sdk-2.1.300-rc1)
 
 This is a front end application that uses serveral API's which are deployed to azure and exposed on these URL's:
+## Front End Applications:
+- [Staff Application](https://staffapplication.azurewebsites.net/)
+  - [Staff Application Code](https://github.com/mhamwala/StaffApplication)
+- [Customer Application](https://threesamigosapplication.azurewebsites.net/)
+  - [Customer Application Code](https://github.com/jimmylid12/CustomerApplication)
+  
+## API's:
 
 - [Third Party Orders API](https://third-party-orders-api.azurewebsites.net/api/orders)
   - [Third Party Service Code](./ThreeAmigosStaff/ThreeAmigosStaff/Services/Purchase/PurchaseService.cs)
