@@ -61,7 +61,7 @@ This is a front end application that uses serveral API's which are deployed to a
   
 ## API's:
 
-- [Third Party Orders API](https://third-party-orders-api.azurewebsites.net/api/orders)
+- [Third Party Orders API](https://third-party-orders-api01.azurewebsites.net/api/orders)
   - [Third Party Service Code](./ThreeAmigosStaff/ThreeAmigosStaff/Services/Purchase/PurchaseService.cs)
 - [Manage Products API](https://manage-products-api.azurewebsites.net/api/products)
   - [Manage Products Service Code](./ThreeAmigosStaff/ThreeAmigosStaff/Services/Product/ProductService.cs)
