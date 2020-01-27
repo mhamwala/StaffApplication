@@ -10,6 +10,9 @@ using ThreeAmigosCustomer.Services;
 using ThreeAmigosPurchase.Services;
 using ThreeAmigosOrder.Services;
 using ThreeAmigosReview.Services;
+using System;
+using Polly;
+using System.Net.Http;
 
 namespace ThreeAmigosStaff
 {
@@ -47,12 +50,12 @@ namespace ThreeAmigosStaff
             }
             else
             {
-                services.AddHttpClient<IStaffService, StaffService>();
-                services.AddHttpClient<IProductService, ProductService>();
-                services.AddHttpClient<ICustomerService, CustomerService>();
-                services.AddHttpClient<IPurchaseService, PurchaseService>();
-                services.AddHttpClient<IOrderService, OrderService>();
-                services.AddHttpClient<IReviewService, ReviewService>();
+                services.AddHttpClient<IReviewService, ReviewService>().AddTransientHttpErrorPolicy(p => p.RetryAsync(3));
+                services.AddHttpClient<IStaffService, StaffService>().AddTransientHttpErrorPolicy(p => p.RetryAsync(3));
+                services.AddHttpClient<IProductService, ProductService>().AddTransientHttpErrorPolicy(p => p.RetryAsync(3));
+                services.AddHttpClient<ICustomerService, CustomerService>().AddTransientHttpErrorPolicy(p => p.RetryAsync(3));
+                services.AddHttpClient<IPurchaseService, PurchaseService>().AddTransientHttpErrorPolicy(p => p.RetryAsync(3));
+                services.AddHttpClient<IOrderService, OrderService>().AddTransientHttpErrorPolicy(p => p.RetryAsync(3));
             }
 
         }
