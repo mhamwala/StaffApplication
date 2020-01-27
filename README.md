@@ -121,7 +121,7 @@ If you would like to manually run and build the API's, SQL server and and test i
      ```
   5. Finally, within the `ThreeAmigosStaff` directory, launch the project by running:
      ```
-     dotnet run
+     dotnet ru
      ```
 
 ## Technologies
